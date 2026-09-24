@@ -14,7 +14,7 @@ interface Athlete {
   quote: string;
   arena: string;
   color: string;
-  image?: string;
+  image: string;
   carNumber?: string;
 }
 
@@ -46,6 +46,7 @@ export const AthletesSection: React.FC = () => {
       name: 'RHIANNAN IFFLAND',
       country: 'AUSTRALIA',
       flag: '🇦🇺',
+      image: '/rhiannan-iffland.jpg',
       discipline: 'CLIFF DIVING HIGH IMPACT',
       carNumber: 'DIVER #01 // RED BULL CLIFF',
       titles: '7X WORLD SERIES CHAMPION',
@@ -64,6 +65,7 @@ export const AthletesSection: React.FC = () => {
       name: 'BRANDON SEMENUK',
       country: 'CANADA',
       flag: '🇨🇦',
+      image: '/brandon-semenuk.jpg',
       discipline: 'FREERIDE MOUNTAIN BIKE',
       carNumber: 'RIDER #07 // TREK C3',
       titles: '5X RAMPAGE CHAMPION',
@@ -82,6 +84,7 @@ export const AthletesSection: React.FC = () => {
       name: 'JAMES DEANE',
       country: 'IRELAND',
       flag: '🇮🇪',
+      image: '/james-deane.jpg',
       discipline: 'TWIN-TURBO DRIFT APEX',
       carNumber: 'CAR #130 // 1,250 BHP MUSTANG',
       titles: '3X FORMULA DRIFT CHAMPION',
@@ -100,6 +103,7 @@ export const AthletesSection: React.FC = () => {
       name: 'NEGUIN',
       country: 'BRAZIL',
       flag: '🇧🇷',
+      image: '/neguin.jpg',
       discipline: 'BREAKDANCE & ACROBATICS',
       carNumber: 'B-BOY #01 // BC ONE ALL STARS',
       titles: 'RED BULL BC ONE WORLD CHAMPION',
@@ -150,8 +154,8 @@ export const AthletesSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Athlete selector row */}
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-8">
+        {/* Athlete selector row: 5 rich cards with photos */}
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-3.5 mb-8">
           {athletes.map((ath, idx) => {
             const isSelected = selectedAthlete === idx;
             return (
@@ -161,35 +165,50 @@ export const AthletesSection: React.FC = () => {
                   audio.playClick();
                   setSelectedAthlete(idx);
                 }}
-                className={`p-3.5 rounded-2xl glass-panel border transition-all duration-300 text-left flex flex-col justify-between ${
+                className={`relative rounded-2xl overflow-hidden border transition-all duration-300 text-left p-3.5 flex flex-col justify-between min-h-[140px] group ${
                   isSelected
-                    ? 'border-rb-red bg-rb-surface/95 shadow-glow-red scale-[1.02]'
-                    : 'border-white/10 opacity-70 hover:opacity-100 hover:border-white/30'
+                    ? 'border-rb-red bg-rb-surface/95 shadow-glow-red scale-[1.03] ring-1 ring-rb-red'
+                    : 'border-white/10 glass-panel opacity-75 hover:opacity-100 hover:border-white/30'
                 }`}
               >
-                <div className="flex items-center justify-between mb-2">
+                {/* Background athlete photo thumbnail */}
+                <div className="absolute inset-0 z-0 overflow-hidden">
+                  <img
+                    src={ath.image}
+                    alt={ath.name}
+                    className="w-full h-full object-cover object-top opacity-30 group-hover:opacity-45 group-hover:scale-105 transition-all duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-rb-dark via-rb-dark/80 to-rb-dark/40" />
+                </div>
+
+                {/* Top indicator: Avatar badge & Rank */}
+                <div className="relative z-10 flex items-center justify-between w-full mb-3">
                   <div className="flex items-center gap-2">
-                    {ath.image ? (
-                      <img
-                        src={ath.image}
-                        alt={ath.name}
-                        className="w-7 h-7 rounded-full object-cover object-top border border-rb-yellow/60 shadow-sm"
-                      />
-                    ) : (
-                      <span className="text-lg">{ath.flag}</span>
-                    )}
+                    <img
+                      src={ath.image}
+                      alt={ath.name}
+                      className="w-8 h-8 rounded-full object-cover object-top border-2 border-rb-yellow/80 shadow-md"
+                    />
                     <span className="text-xs font-mono font-bold text-rb-silver">{ath.flag}</span>
                   </div>
-                  <span className="font-mono text-[9px] font-bold text-rb-muted uppercase tracking-widest">
+                  <span className="font-mono text-[9px] font-bold text-rb-yellow px-1.5 py-0.5 rounded bg-black/60 backdrop-blur-md uppercase tracking-widest border border-white/10">
                     #{idx + 1}
                   </span>
                 </div>
-                <div className="font-display font-black text-xs sm:text-sm text-white leading-tight line-clamp-1">
-                  {ath.name}
+
+                {/* Bottom info */}
+                <div className="relative z-10">
+                  <div className="font-display font-black text-xs sm:text-sm text-white leading-tight line-clamp-1 group-hover:text-rb-yellow transition-colors">
+                    {ath.name}
+                  </div>
+                  <span className="font-mono text-[9px] text-rb-silver/80 mt-0.5 block truncate">
+                    {ath.discipline}
+                  </span>
                 </div>
-                <span className="font-mono text-[9px] text-rb-yellow mt-1 truncate">
-                  {ath.discipline}
-                </span>
+
+                {isSelected && (
+                  <span className="absolute bottom-0 left-2 right-2 h-0.5 bg-gradient-to-r from-transparent via-rb-red to-transparent z-10" />
+                )}
               </button>
             );
           })}
@@ -244,81 +263,52 @@ export const AthletesSection: React.FC = () => {
           </div>
 
           {/* Right Visual Athlete Card / Badge */}
-          <div className="lg:col-span-5 flex flex-col items-center justify-between min-h-[380px] sm:min-h-[440px] rounded-2xl bg-gradient-to-b from-white/5 to-transparent border border-white/10 text-center relative overflow-hidden group shadow-2xl">
-            {current.image ? (
-              <>
-                {/* Real Athlete Photo */}
-                <div className="absolute inset-0 z-0">
-                  <img
-                    src={current.image}
-                    alt={current.name}
-                    className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
-                  />
-                  {/* Atmospheric contrast gradients */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-rb-dark via-rb-dark/50 to-transparent" />
-                  <div className="absolute inset-0 bg-gradient-to-b from-rb-dark/80 via-transparent to-transparent" />
-                  <div className="absolute inset-0 ring-1 ring-inset ring-white/15 rounded-2xl pointer-events-none" />
-                </div>
+          <div className="lg:col-span-5 flex flex-col items-center justify-between min-h-[420px] sm:min-h-[480px] rounded-2xl bg-gradient-to-b from-white/5 to-transparent border border-white/10 text-center relative overflow-hidden group shadow-2xl">
+            {/* Real Athlete Photo */}
+            <div className="absolute inset-0 z-0">
+              <img
+                src={current.image}
+                alt={current.name}
+                className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+              />
+              {/* Atmospheric contrast gradients */}
+              <div className="absolute inset-0 bg-gradient-to-t from-rb-dark via-rb-dark/50 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-b from-rb-dark/80 via-transparent to-transparent" />
+              <div className="absolute inset-0 ring-1 ring-inset ring-white/15 rounded-2xl pointer-events-none" />
+            </div>
 
-                {/* Top Badge Overlay */}
-                <div className="relative z-10 w-full p-4 flex items-center justify-between">
-                  <span className="px-3 py-1 rounded-full bg-black/70 backdrop-blur-md border border-white/15 text-[10px] font-mono text-rb-yellow font-bold uppercase tracking-widest flex items-center gap-1.5 shadow-sm">
-                    <span className="w-1.5 h-1.5 rounded-full bg-rb-red animate-pulse" />
-                    <span>{current.carNumber || 'RED BULL ATHLETE'}</span>
-                  </span>
-                  <span className="px-3 py-1 rounded-full bg-rb-red/80 backdrop-blur-md text-[10px] font-mono text-white font-bold tracking-widest uppercase shadow-sm">
-                    {current.titles.split(' ')[0]}
-                  </span>
-                </div>
+            {/* Top Badge Overlay */}
+            <div className="relative z-10 w-full p-4 flex items-center justify-between">
+              <span className="px-3 py-1 rounded-full bg-black/75 backdrop-blur-md border border-white/15 text-[10px] font-mono text-rb-yellow font-bold uppercase tracking-widest flex items-center gap-1.5 shadow-sm">
+                <span className="w-1.5 h-1.5 rounded-full bg-rb-red animate-pulse" />
+                <span>{current.carNumber || 'RED BULL ATHLETE'}</span>
+              </span>
+              <span className="px-3 py-1 rounded-full bg-rb-red/90 backdrop-blur-md text-[10px] font-mono text-white font-bold tracking-widest uppercase shadow-sm">
+                {current.titles.split(' ')[0]}
+              </span>
+            </div>
 
-                {/* Bottom Info Overlay */}
-                <div className="relative z-10 w-full p-6 text-center flex flex-col items-center">
-                  <div className="font-mono text-[10px] text-rb-yellow font-bold tracking-widest uppercase mb-1 drop-shadow-md">
-                    OFFICIAL RED BULL ATHLETE
-                  </div>
-                  <div className="text-xl sm:text-2xl font-display font-black text-white mb-1 drop-shadow-lg">
-                    {current.discipline}
-                  </div>
-                  <p className="font-mono text-xs text-rb-silver max-w-xs mb-5 drop-shadow-md">
-                    Confirmed for live championship runs and paddock autograph sessions.
-                  </p>
-
-                  <a
-                    href="#tickets"
-                    onClick={() => audio.playClick()}
-                    className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-rb-red hover:bg-rb-redGlow text-white font-mono text-xs uppercase tracking-wider font-bold shadow-glow-red transition-all hover:scale-105 active:scale-95 border border-white/20"
-                  >
-                    <span>MEET AT VIP PADDOCK</span>
-                    <ArrowUpRight className="w-3.5 h-3.5 text-rb-yellow" />
-                  </a>
-                </div>
-              </>
-            ) : (
-              <div className="flex flex-col items-center justify-center p-8 my-auto w-full">
-                <div className="w-20 h-20 rounded-full bg-rb-red/20 border-2 border-rb-yellow/40 flex items-center justify-center text-3xl mb-4 shadow-glow-yellow">
-                  <Trophy className="w-10 h-10 text-rb-yellow" />
-                </div>
-
-                <div className="font-mono text-[10px] text-rb-yellow font-bold tracking-widest uppercase mb-1">
-                  OFFICIAL RED BULL ATHLETE
-                </div>
-                <div className="text-xl font-display font-black text-white mb-2">
-                  {current.discipline}
-                </div>
-                <p className="font-mono text-xs text-rb-muted max-w-xs mb-6">
-                  Confirmed for live qualifying heats and medal finals at {current.arena}.
-                </p>
-
-                <a
-                  href="#tickets"
-                  onClick={() => audio.playClick()}
-                  className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white font-mono text-xs uppercase tracking-wider transition-colors"
-                >
-                  <span>MEET AT VIP PADDOCK</span>
-                  <ArrowUpRight className="w-3.5 h-3.5 text-rb-yellow" />
-                </a>
+            {/* Bottom Info Overlay */}
+            <div className="relative z-10 w-full p-6 text-center flex flex-col items-center">
+              <div className="font-mono text-[10px] text-rb-yellow font-bold tracking-widest uppercase mb-1 drop-shadow-md">
+                OFFICIAL RED BULL ATHLETE
               </div>
-            )}
+              <div className="text-xl sm:text-2xl font-display font-black text-white mb-1 drop-shadow-lg">
+                {current.discipline}
+              </div>
+              <p className="font-mono text-xs text-rb-silver max-w-xs mb-5 drop-shadow-md">
+                Confirmed for live championship runs and paddock autograph sessions.
+              </p>
+
+              <a
+                href="#tickets"
+                onClick={() => audio.playClick()}
+                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-rb-red hover:bg-rb-redGlow text-white font-mono text-xs uppercase tracking-wider font-bold shadow-glow-red transition-all hover:scale-105 active:scale-95 border border-white/20"
+              >
+                <span>MEET AT VIP PADDOCK</span>
+                <ArrowUpRight className="w-3.5 h-3.5 text-rb-yellow" />
+              </a>
+            </div>
           </div>
         </div>
       </div>
