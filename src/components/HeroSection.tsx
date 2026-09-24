@@ -42,10 +42,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             <span className="w-6 h-px bg-rb-yellow/60" />
           </div>
 
-          <h1 className="text-6xl sm:text-8xl md:text-9xl lg:text-[11.5rem] font-display font-black tracking-tighter text-white leading-none select-none drop-shadow-2xl">
+          <h1 className="text-5xl xs:text-6xl sm:text-8xl md:text-9xl lg:text-[11.5rem] font-display font-black tracking-tighter text-white leading-none select-none drop-shadow-2xl">
             REDBULL
           </h1>
-          <div className="text-4xl sm:text-6xl md:text-7xl lg:text-9xl font-display font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white via-rb-silver to-white/15 -mt-2 sm:-mt-6">
+          <div className="text-3xl xs:text-4xl sm:text-6xl md:text-7xl lg:text-9xl font-display font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white via-rb-silver to-white/15 -mt-2 sm:-mt-6">
             GRAVITY
           </div>
         </div>

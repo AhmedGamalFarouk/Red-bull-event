@@ -139,9 +139,9 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
         {/* Center Stage: Red Bull Emblem & Gravity Unleashed */}
         <div className="flex flex-col items-center text-center max-w-2xl mx-auto my-auto py-4">
           {/* Egypt Expedition Tagline */}
-          <div className="inline-flex items-center gap-2 px-4 py-1 mb-5 rounded-full bg-black/50 border border-rb-yellow/30 text-rb-yellow font-mono text-[11px] font-semibold tracking-widest uppercase shadow-sm whitespace-nowrap">
-            <Flame className="w-3.5 h-3.5 text-rb-red shrink-0" />
-            <span>CAIRO • GIZA DUNES • DAHAB • SINAI // 2026</span>
+          <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1 mb-5 rounded-full bg-black/50 border border-rb-yellow/30 text-rb-yellow font-mono text-[9px] sm:text-[11px] font-semibold tracking-wider sm:tracking-widest uppercase shadow-sm max-w-[92vw]">
+            <Flame className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-rb-red shrink-0" />
+            <span className="truncate">CAIRO • GIZA DUNES • DAHAB • SINAI // 2026</span>
           </div>
 
           {/* Official Red Bull Logo */}

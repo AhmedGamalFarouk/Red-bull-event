@@ -154,8 +154,8 @@ export const AthletesSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Athlete selector row */}
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-8">
+        {/* Athlete selector row: touch-scrollable strip on mobile, 5-col grid on sm+ */}
+        <div className="flex overflow-x-auto no-scrollbar sm:grid sm:grid-cols-5 gap-3 mb-8 pb-1 snap-x">
           {athletes.map((ath, idx) => {
             const isSelected = selectedAthlete === idx;
             return (
@@ -165,7 +165,7 @@ export const AthletesSection: React.FC = () => {
                   audio.playClick();
                   setSelectedAthlete(idx);
                 }}
-                className={`relative rounded-2xl overflow-hidden border transition-all duration-300 text-left p-3.5 flex flex-col justify-between min-h-[120px] group ${
+                className={`relative rounded-2xl overflow-hidden border transition-all duration-300 text-left p-3.5 flex flex-col justify-between min-h-[120px] flex-shrink-0 w-[150px] sm:w-auto snap-start group ${
                   isSelected
                     ? 'border-rb-red bg-rb-surface/95 shadow-glow-red scale-[1.02] ring-1 ring-rb-red'
                     : 'border-white/10 glass-panel opacity-75 hover:opacity-100 hover:border-white/30'

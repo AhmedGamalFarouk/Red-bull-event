@@ -25,6 +25,15 @@
   background: #ED1B2D;
 }
 
+/* Hide scrollbar for carousels */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 /* Global resets & typography */
 html {
   background-color: #050711;

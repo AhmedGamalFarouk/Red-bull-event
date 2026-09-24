@@ -447,7 +447,7 @@ export const TicketSection: React.FC = () => {
         </div>
 
         {/* Tier Comparison Matrix Table */}
-        <div className="mt-14 glass-panel p-6 sm:p-10 rounded-3xl border border-white/15 overflow-x-auto shadow-2xl">
+        <div className="mt-14 glass-panel p-6 sm:p-10 rounded-3xl border border-white/15 overflow-x-auto no-scrollbar shadow-2xl">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
             <div>
               <span className="font-mono text-xs font-bold text-rb-yellow uppercase tracking-widest">
@@ -457,12 +457,17 @@ export const TicketSection: React.FC = () => {
                 TIER COMPARISON MATRIX
               </h3>
             </div>
-            <span className="text-xs font-mono text-rb-silver">
-              Compare all four pass tiers, shaded lounge access, and trackside privileges
-            </span>
+            <div className="flex flex-col sm:items-end">
+              <span className="text-xs font-mono text-rb-silver">
+                Compare all four pass tiers, shaded lounge access, and trackside privileges
+              </span>
+              <span className="text-[10px] font-mono text-rb-yellow/80 sm:hidden mt-1">
+                Swipe horizontally to compare tiers →
+              </span>
+            </div>
           </div>
 
-          <table className="w-full text-left font-mono text-xs">
+          <table className="w-full min-w-[620px] text-left font-mono text-xs">
             <thead>
               <tr className="border-b border-white/10 text-rb-yellow">
                 <th className="pb-4">PRIVILEGE / PERK</th>
@@ -537,7 +542,7 @@ export const TicketSection: React.FC = () => {
       {/* Checkout Modal */}
       {modalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-rb-dark/85 backdrop-blur-2xl animate-fade-in">
-          <div className="relative w-full max-w-lg glass-panel p-8 sm:p-10 rounded-3xl border border-white/20 shadow-2xl">
+          <div className="relative w-full max-w-lg glass-panel p-6 sm:p-10 rounded-3xl border border-white/20 shadow-2xl max-h-[90vh] overflow-y-auto no-scrollbar">
             <button
               onClick={() => setModalOpen(false)}
               className="absolute top-5 right-5 p-2 rounded-full hover:bg-white/10 text-rb-muted hover:text-white transition-colors"
