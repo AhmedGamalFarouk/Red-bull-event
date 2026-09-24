@@ -161,26 +161,7 @@ export const VenueExperienceSection: React.FC = () => {
           </div>
 
           {/* Right Column: Reserved negative space for 3D Can in aerial observation mode */}
-          <div className="hidden lg:flex lg:col-span-5 flex-col justify-center items-end min-h-[440px] pointer-events-none relative pr-4">
-            <div className="p-4 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm font-mono text-[10px] text-rb-muted max-w-xs space-y-2 text-right">
-              <div className="flex items-center justify-between text-rb-cyan font-bold border-b border-white/10 pb-1.5">
-                <span className="w-2 h-2 rounded-full bg-rb-cyan animate-pulse" />
-                <span>AERIAL SCOUT PROFILE</span>
-              </div>
-              <div className="flex justify-between">
-                <span>ELEVATION:</span>
-                <span className="text-white">+450M DESERT APEX</span>
-              </div>
-              <div className="flex justify-between">
-                <span>SURVEILLANCE:</span>
-                <span className="text-white">4 LIVE ARENAS</span>
-              </div>
-              <div className="flex justify-between">
-                <span>CHANNEL:</span>
-                <span className="text-white">RIGHT FLANK // OPEN AIR</span>
-              </div>
-            </div>
-          </div>
+          <div className="hidden lg:flex lg:col-span-5 min-h-[440px] pointer-events-none relative" />
         </div>
 
         {/* Proving Grounds: Interactive Simulation Attractions */}

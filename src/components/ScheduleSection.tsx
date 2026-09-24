@@ -202,26 +202,7 @@ export const ScheduleSection: React.FC = () => {
           </div>
 
           {/* Right Column: Reserved negative space for 3D Can */}
-          <div className="hidden lg:flex lg:col-span-4 flex-col justify-center items-end min-h-[360px] pointer-events-none relative pr-2">
-            <div className="p-4 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm font-mono text-[10px] text-rb-muted max-w-xs space-y-2 text-right">
-              <div className="flex items-center justify-between text-rb-yellow font-bold border-b border-white/10 pb-1.5">
-                <span className="w-2 h-2 rounded-full bg-rb-red animate-ping" />
-                <span>RACE TIME CONTROLLER</span>
-              </div>
-              <div className="flex justify-between">
-                <span>STAGE STATUS:</span>
-                <span className="text-white">SYNCHRONIZED</span>
-              </div>
-              <div className="flex justify-between">
-                <span>BROADCAST:</span>
-                <span className="text-white">GLOBAL 4K UHD</span>
-              </div>
-              <div className="flex justify-between">
-                <span>CAN CHANNEL:</span>
-                <span className="text-white">RIGHT FLANK // CLEAR</span>
-              </div>
-            </div>
-          </div>
+          <div className="hidden lg:flex lg:col-span-4 min-h-[360px] pointer-events-none relative" />
         </div>
       </div>
     </section>

@@ -217,27 +217,8 @@ export const AthletesSection: React.FC = () => {
           - Right (lg:col-span-7): Full athlete dossier card (photo + bio + quotes + stats)
         */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          {/* Left Column: Reserved open 3D stage with flight telemetry brackets */}
-          <div className="hidden lg:flex lg:col-span-5 flex-col justify-center items-start min-h-[480px] pointer-events-none relative pl-2">
-            <div className="p-4 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm font-mono text-[10px] text-rb-muted max-w-xs space-y-2">
-              <div className="flex items-center justify-between text-rb-yellow font-bold border-b border-white/10 pb-1.5">
-                <span>CAN FLIGHT PROFILE</span>
-                <span className="w-2 h-2 rounded-full bg-rb-cyan animate-ping" />
-              </div>
-              <div className="flex justify-between">
-                <span>BANK ANGLE:</span>
-                <span className="text-white">+38° INVERTED ROLL</span>
-              </div>
-              <div className="flex justify-between">
-                <span>AIR CHANNEL:</span>
-                <span className="text-white">LEFT FLANK // UNIMPEDED</span>
-              </div>
-              <div className="flex justify-between">
-                <span>SECTOR:</span>
-                <span className="text-white">{current.arena.split(' ')[0]}</span>
-              </div>
-            </div>
-          </div>
+          {/* Left Column: Reserved open 3D stage for the can */}
+          <div className="hidden lg:flex lg:col-span-5 min-h-[480px] pointer-events-none relative" />
 
           {/* Right Column: Complete Athlete Dossier Card */}
           <div className="lg:col-span-7 glass-panel-accent p-6 sm:p-8 rounded-3xl border border-white/20 shadow-2xl relative overflow-hidden">
