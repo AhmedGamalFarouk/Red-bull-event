@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { audio } from '../utils/audio';
-import { Calendar, Clock, MapPin, Zap, Flame, Radio, Wind, Trophy } from 'lucide-react';
+import { Calendar, Clock, MapPin, Zap, Flame, Radio, Wind, Trophy, Timer } from 'lucide-react';
 
 export const ScheduleSection: React.FC = () => {
   const [activeDay, setActiveDay] = useState<number>(0);
@@ -107,11 +107,11 @@ export const ScheduleSection: React.FC = () => {
   return (
     <section
       id="schedule"
-      className="relative min-h-[110dvh] w-full flex flex-col justify-center py-24 px-4 sm:px-10 z-20"
+      className="relative min-h-[120dvh] w-full flex flex-col justify-center py-24 px-4 sm:px-10 z-20"
     >
       <div className="max-w-7xl mx-auto w-full">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-8">
           <div>
             <div className="flex items-center gap-3 mb-3">
               <span className="w-8 h-0.5 bg-rb-red" />
@@ -161,39 +161,67 @@ export const ScheduleSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Schedule Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {days[activeDay].events.map((event) => (
-            <div
-              key={event.title}
-              className="glass-panel p-6 sm:p-7 rounded-2xl border border-white/10 hover:border-rb-red/50 transition-all duration-300 hover:-translate-y-1 shadow-xl flex flex-col justify-between group"
-            >
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2 text-xs font-mono text-rb-yellow">
-                    <Clock className="w-3.5 h-3.5" />
-                    <span>{event.time}</span>
+        {/* 
+          Asymmetric Schedule Grid:
+          - Left (lg:col-span-8): The 3 Events
+          - Right (lg:col-span-4): Reserved open channel for the 3D Can
+        */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-3 gap-5">
+            {days[activeDay].events.map((event) => (
+              <div
+                key={event.title}
+                className="glass-panel p-5 sm:p-6 rounded-2xl border border-white/10 hover:border-rb-red/50 transition-all duration-300 hover:-translate-y-1 shadow-xl flex flex-col justify-between group"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-1.5 text-xs font-mono text-rb-yellow">
+                      <Clock className="w-3.5 h-3.5" />
+                      <span>{event.time}</span>
+                    </div>
+                    <span className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded-full border ${event.color}`}>
+                      {event.heat}
+                    </span>
                   </div>
-                  <span className={`text-[9px] font-mono font-bold px-2.5 py-0.5 rounded-full border ${event.color}`}>
-                    {event.heat}
-                  </span>
+
+                  <div className="font-mono text-[9px] text-rb-muted uppercase tracking-wider mb-2">
+                    CATEGORY: {event.type}
+                  </div>
+
+                  <h3 className="text-lg font-display font-black text-white mb-4 group-hover:text-rb-yellow transition-colors leading-snug">
+                    {event.title}
+                  </h3>
                 </div>
 
-                <div className="font-mono text-[10px] text-rb-muted uppercase tracking-wider mb-2">
-                  CATEGORY: {event.type}
+                <div className="pt-3 border-t border-white/10 flex items-center gap-2 text-xs font-mono text-rb-muted">
+                  <MapPin className="w-3.5 h-3.5 text-rb-silver flex-shrink-0" />
+                  <span className="truncate">{event.stage}</span>
                 </div>
-
-                <h3 className="text-xl font-display font-black text-white mb-4 group-hover:text-rb-yellow transition-colors leading-snug">
-                  {event.title}
-                </h3>
               </div>
+            ))}
+          </div>
 
-              <div className="pt-4 border-t border-white/10 flex items-center gap-2 text-xs font-mono text-rb-muted">
-                <MapPin className="w-3.5 h-3.5 text-rb-silver flex-shrink-0" />
-                <span className="truncate">{event.stage}</span>
+          {/* Right Column: Reserved negative space for 3D Can */}
+          <div className="hidden lg:flex lg:col-span-4 flex-col justify-center items-end min-h-[360px] pointer-events-none relative pr-2">
+            <div className="p-4 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm font-mono text-[10px] text-rb-muted max-w-xs space-y-2 text-right">
+              <div className="flex items-center justify-between text-rb-yellow font-bold border-b border-white/10 pb-1.5">
+                <span className="w-2 h-2 rounded-full bg-rb-red animate-ping" />
+                <span>RACE TIME CONTROLLER</span>
+              </div>
+              <div className="flex justify-between">
+                <span>STAGE STATUS:</span>
+                <span className="text-white">SYNCHRONIZED</span>
+              </div>
+              <div className="flex justify-between">
+                <span>BROADCAST:</span>
+                <span className="text-white">GLOBAL 4K UHD</span>
+              </div>
+              <div className="flex justify-between">
+                <span>CAN CHANNEL:</span>
+                <span className="text-white">RIGHT FLANK // CLEAR</span>
               </div>
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </section>

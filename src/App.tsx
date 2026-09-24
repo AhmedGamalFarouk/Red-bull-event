@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -18,6 +18,8 @@ import { audio } from './utils/audio';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const SECTION_IDS = ['hero', 'arenas', 'athletes', 'experience', 'anatomy', 'schedule', 'tickets'];
+
 export const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -25,6 +27,42 @@ export const App: React.FC = () => {
   const [audioActive, setAudioActive] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const lenisRef = useRef<Lenis | null>(null);
+
+  // Compute exact section-anchored progress (0 to 6)
+  const calculateSectionProgress = useCallback(() => {
+    const scrollY = window.scrollY || window.pageYOffset;
+    const viewportHeight = window.innerHeight;
+    const viewportCenter = scrollY + viewportHeight * 0.5;
+
+    const centers = SECTION_IDS.map((id) => {
+      const el = document.getElementById(id);
+      if (!el) return 0;
+      const rect = el.getBoundingClientRect();
+      return scrollY + rect.top + rect.height * 0.5;
+    });
+
+    if (centers.length === 0 || centers[0] === 0) return 0;
+
+    // Above or at first section
+    if (viewportCenter <= centers[0]) {
+      return 0;
+    }
+    // Below or at last section
+    if (viewportCenter >= centers[centers.length - 1]) {
+      return centers.length - 1;
+    }
+
+    // Interpolate between the two bounding section centers
+    for (let i = 0; i < centers.length - 1; i++) {
+      if (viewportCenter >= centers[i] && viewportCenter <= centers[i + 1]) {
+        const span = centers[i + 1] - centers[i];
+        const localT = span > 0 ? (viewportCenter - centers[i]) / span : 0;
+        return i + localT;
+      }
+    }
+
+    return 0;
+  }, []);
 
   // Initialize Lenis smooth scroll and integrate with GSAP ScrollTrigger
   useEffect(() => {
@@ -35,14 +73,20 @@ export const App: React.FC = () => {
     });
     lenisRef.current = lenis;
 
-    lenis.on('scroll', (e) => {
+    const handleScroll = (e: { velocity: number }) => {
       ScrollTrigger.update();
+
+      // Update section-anchored progress smoothly
+      const progress = calculateSectionProgress();
+      setScrollProgress(progress);
 
       // Feed scroll velocity into continuous liquid sloshing engine
       if (Math.abs(e.velocity) > 0.1) {
         audio.feedScrollVelocity(Math.abs(e.velocity));
       }
-    });
+    };
+
+    lenis.on('scroll', handleScroll);
 
     const tickerCallback = (time: number) => {
       lenis.raf(time * 1000);
@@ -51,21 +95,21 @@ export const App: React.FC = () => {
     gsap.ticker.add(tickerCallback);
     gsap.ticker.lagSmoothing(0);
 
-    // Global ScrollTrigger to track overall progress through page
-    const trigger = ScrollTrigger.create({
-      start: 'top top',
-      end: 'bottom bottom',
-      onUpdate: (self) => {
-        setScrollProgress(self.progress);
-      },
-    });
+    // Initial calculation after elements mount
+    const timer = setTimeout(() => {
+      setScrollProgress(calculateSectionProgress());
+      ScrollTrigger.refresh();
+    }, 150);
+
+    window.addEventListener('resize', ScrollTrigger.refresh);
 
     return () => {
-      trigger.kill();
+      clearTimeout(timer);
+      window.removeEventListener('resize', ScrollTrigger.refresh);
       gsap.ticker.remove(tickerCallback);
       lenis.destroy();
     };
-  }, []);
+  }, [calculateSectionProgress]);
 
   // Track mouse coordinates for 3D can gyro-tilt
   useEffect(() => {
@@ -106,6 +150,10 @@ export const App: React.FC = () => {
           onComplete={() => {
             setLoading(false);
             setAudioActive(audio.enabled);
+            setTimeout(() => {
+              setScrollProgress(calculateSectionProgress());
+              ScrollTrigger.refresh();
+            }, 100);
           }}
         />
       )}
@@ -143,27 +191,27 @@ export const App: React.FC = () => {
 
       {/* Scroll Sections Container */}
       <main className="relative z-20">
-        {/* Hero Chapter */}
+        {/* Hero Chapter (Index 0) */}
         <HeroSection
           onExploreClick={() => handleNavigate('arenas')}
         />
 
-        {/* Chapter 01: The Four Egyptian Arenas */}
+        {/* Chapter 01: The Four Egyptian Arenas (Index 1) */}
         <ArenasSection />
 
-        {/* Chapter 02: World Apex Athletes Roster */}
+        {/* Chapter 02: World Apex Athletes Roster (Index 2) */}
         <AthletesSection />
 
-        {/* Chapter 03: Festival Hubs & Energy Lab Experience */}
+        {/* Chapter 03: Festival Hubs & Energy Lab Experience (Index 3) */}
         <VenueExperienceSection />
 
-        {/* Chapter 04: Anatomy & Desert Hydration Science */}
+        {/* Chapter 04: Anatomy & Desert Hydration Science (Index 4) */}
         <AdrenalineSection />
 
-        {/* Chapter 05: Event Schedule & Lineup */}
+        {/* Chapter 05: Event Schedule & Lineup (Index 5) */}
         <ScheduleSection />
 
-        {/* Chapter 07: Expanded Ticket Passes & Trip Customization */}
+        {/* Chapter 06: Expanded Ticket Passes & Trip Customization (Index 6) */}
         <TicketSection />
       </main>
 

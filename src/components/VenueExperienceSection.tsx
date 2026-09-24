@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { audio } from '../utils/audio';
-import { MapPin, Bus, Sun, Shield, ChevronDown, Sparkles, Coffee, Glasses, CheckCircle2, Navigation } from 'lucide-react';
+import { MapPin, Bus, Sun, Shield, ChevronDown, Sparkles, Coffee, Glasses, CheckCircle2, Navigation, Compass, Radio } from 'lucide-react';
 
 export const VenueExperienceSection: React.FC = () => {
   const [activeFaq, setActiveFaq] = useState<number | null>(0);
@@ -87,7 +87,7 @@ export const VenueExperienceSection: React.FC = () => {
   return (
     <section
       id="experience"
-      className="relative min-h-screen w-full flex flex-col justify-center py-24 px-4 sm:px-10 z-20"
+      className="relative min-h-[120dvh] w-full flex flex-col justify-center py-24 px-4 sm:px-10 z-20"
     >
       <div className="max-w-7xl mx-auto w-full">
         {/* Header */}
@@ -115,44 +115,72 @@ export const VenueExperienceSection: React.FC = () => {
           </div>
         </div>
 
-        {/* 4 Spectator Hubs Bento Matrix */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-14">
-          {hubs.map((hub) => (
-            <div
-              key={hub.title}
-              className={`glass-panel p-6 sm:p-7 rounded-2xl border transition-all duration-300 hover:border-white/30 hover:scale-[1.01] ${hub.accent.split(' ')[0]} relative overflow-hidden`}
-            >
-              <div className="flex items-center justify-between mb-4">
-                <span className="font-mono text-[10px] font-bold text-rb-muted uppercase tracking-widest px-2.5 py-0.5 rounded bg-white/5 border border-white/10">
-                  {hub.tag}
-                </span>
-                <span className="font-mono text-xs text-rb-yellow flex items-center gap-1 uppercase tracking-wider">
-                  <MapPin className="w-3.5 h-3.5" />
-                  {hub.location}
-                </span>
-              </div>
-
-              <h3 className="text-2xl font-display font-black tracking-tight text-white mb-3">
-                {hub.title}
-              </h3>
-
-              <p className="font-mono text-xs sm:text-sm text-rb-silver leading-relaxed mb-6">
-                {hub.desc}
-              </p>
-
-              <div className="flex flex-wrap gap-2 pt-4 border-t border-white/10">
-                {hub.highlights.map((item) => (
-                  <span
-                    key={item}
-                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/5 font-mono text-[10px] text-white/90 uppercase tracking-wider"
-                  >
-                    <CheckCircle2 className="w-3 h-3 text-rb-cyan" />
-                    {item}
+        {/* 
+          Asymmetric Hubs Grid:
+          - Left (lg:col-span-7): The 4 Spectator Hubs
+          - Right (lg:col-span-5): Reserved open corridor for the 3D Can in aerial observation mode
+        */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center mb-16">
+          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {hubs.map((hub) => (
+              <div
+                key={hub.title}
+                className={`glass-panel p-5 rounded-2xl border transition-all duration-300 hover:border-white/30 hover:scale-[1.01] ${hub.accent.split(' ')[0]} relative overflow-hidden`}
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <span className="font-mono text-[9px] font-bold text-rb-muted uppercase tracking-widest px-2 py-0.5 rounded bg-white/5 border border-white/10">
+                    {hub.tag}
                   </span>
-                ))}
+                  <span className="font-mono text-[11px] text-rb-yellow flex items-center gap-1 uppercase tracking-wider truncate">
+                    <MapPin className="w-3 h-3 shrink-0" />
+                    {hub.location.split('//')[0].trim()}
+                  </span>
+                </div>
+
+                <h3 className="text-xl font-display font-black tracking-tight text-white mb-2 leading-snug">
+                  {hub.title}
+                </h3>
+
+                <p className="font-mono text-[11px] text-rb-silver leading-relaxed mb-4">
+                  {hub.desc}
+                </p>
+
+                <div className="flex flex-wrap gap-1.5 pt-3 border-t border-white/10">
+                  {hub.highlights.map((item) => (
+                    <span
+                      key={item}
+                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/5 border border-white/5 font-mono text-[9px] text-white/90 uppercase tracking-wider"
+                    >
+                      <CheckCircle2 className="w-2.5 h-2.5 text-rb-cyan shrink-0" />
+                      <span className="truncate">{item}</span>
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Right Column: Reserved negative space for 3D Can in aerial observation mode */}
+          <div className="hidden lg:flex lg:col-span-5 flex-col justify-center items-end min-h-[440px] pointer-events-none relative pr-4">
+            <div className="p-4 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm font-mono text-[10px] text-rb-muted max-w-xs space-y-2 text-right">
+              <div className="flex items-center justify-between text-rb-cyan font-bold border-b border-white/10 pb-1.5">
+                <span className="w-2 h-2 rounded-full bg-rb-cyan animate-pulse" />
+                <span>AERIAL SCOUT PROFILE</span>
+              </div>
+              <div className="flex justify-between">
+                <span>ELEVATION:</span>
+                <span className="text-white">+450M DESERT APEX</span>
+              </div>
+              <div className="flex justify-between">
+                <span>SURVEILLANCE:</span>
+                <span className="text-white">4 LIVE ARENAS</span>
+              </div>
+              <div className="flex justify-between">
+                <span>CHANNEL:</span>
+                <span className="text-white">RIGHT FLANK // OPEN AIR</span>
               </div>
             </div>
-          ))}
+          </div>
         </div>
 
         {/* Proving Grounds: Interactive Simulation Attractions */}
