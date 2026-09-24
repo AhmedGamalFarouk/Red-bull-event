@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { audio } from '../utils/audio';
-import { Check, QrCode, ArrowRight, Zap, X, Shield, Sparkles, Plus, DollarSign, Coins } from 'lucide-react';
+import { Check, QrCode, ArrowRight, Zap, X, Shield, Sparkles, Plus, DollarSign, Coins, Ticket, Flame } from 'lucide-react';
 
 interface TicketTier {
   id: string;
@@ -156,8 +156,8 @@ export const TicketSection: React.FC = () => {
     setIsReserved(true);
 
     confetti({
-      particleCount: 130,
-      spread: 80,
+      particleCount: 140,
+      spread: 85,
       origin: { y: 0.6 },
       colors: ['#ED1B2D', '#FFC800', '#00D8FF', '#FFFFFF'],
     });
@@ -174,7 +174,7 @@ export const TicketSection: React.FC = () => {
     >
       <div className="max-w-7xl mx-auto w-full">
         {/* Header & Currency Switcher */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 mb-3 rounded-full bg-rb-red/20 border border-rb-red/40 text-rb-red text-xs font-mono font-bold tracking-widest uppercase">
               <Sparkles className="w-3.5 h-3.5" />
@@ -190,15 +190,15 @@ export const TicketSection: React.FC = () => {
           </div>
 
           {/* Currency Toggle */}
-          <div className="flex items-center gap-3 glass-panel p-1.5 rounded-full border border-white/10 shrink-0">
-            <span className="text-[11px] font-mono text-rb-muted uppercase pl-3 whitespace-nowrap">CURRENCY:</span>
+          <div className="flex items-center gap-2 glass-panel p-1.5 rounded-full border border-white/10 shrink-0 shadow-lg">
+            <span className="text-[10px] font-mono text-rb-muted uppercase pl-3 pr-1 whitespace-nowrap">CURRENCY:</span>
             <button
               onClick={() => {
                 audio.playClick();
                 setCurrency('USD');
               }}
               className={`px-3.5 py-1.5 rounded-full text-xs font-mono font-bold transition-all whitespace-nowrap ${
-                currency === 'USD' ? 'bg-rb-red text-white shadow-glow-red' : 'text-rb-silver hover:text-white'
+                currency === 'USD' ? 'bg-rb-red text-white shadow-glow-red scale-105' : 'text-rb-silver hover:text-white'
               }`}
             >
               USD ($)
@@ -209,7 +209,7 @@ export const TicketSection: React.FC = () => {
                 setCurrency('EGP');
               }}
               className={`px-3.5 py-1.5 rounded-full text-xs font-mono font-bold transition-all whitespace-nowrap ${
-                currency === 'EGP' ? 'bg-rb-yellow text-rb-dark shadow-glow-yellow' : 'text-rb-silver hover:text-white'
+                currency === 'EGP' ? 'bg-rb-yellow text-rb-dark shadow-glow-yellow scale-105' : 'text-rb-silver hover:text-white'
               }`}
             >
               EGP (ج.م)
@@ -254,10 +254,16 @@ export const TicketSection: React.FC = () => {
                   tier.popular
                     ? 'glass-panel-accent border-rb-red shadow-2xl lg:-translate-y-3 scale-[1.02]'
                     : isSelected
-                    ? 'glass-panel border-rb-yellow/60 bg-rb-surface/90 shadow-xl'
+                    ? 'glass-panel border-rb-yellow/60 bg-rb-surface/95 shadow-xl'
                     : 'glass-panel border-white/10 hover:border-white/20'
                 }`}
               >
+                {/* Barcode Stamp Header */}
+                <div className="flex items-center justify-between pb-3 mb-3 border-b border-white/10 font-mono text-[9px] text-rb-muted">
+                  <span className="tracking-widest">CREDENTIAL #{idx + 1}</span>
+                  <span className="tracking-widest">||||| | ||||</span>
+                </div>
+
                 {tier.badge && (
                   <div className={`absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full text-[9px] font-mono font-bold tracking-widest uppercase shadow-md whitespace-nowrap ${
                     tier.popular ? 'bg-rb-red text-white shadow-glow-red' : 'bg-white/10 text-rb-yellow border border-white/10'
@@ -305,7 +311,7 @@ export const TicketSection: React.FC = () => {
 
                 <button
                   onClick={() => handleOpenCheckout(idx)}
-                  className={`w-full py-3.5 px-2 rounded-full font-display font-bold text-[11px] sm:text-xs tracking-wider uppercase flex items-center justify-center gap-1.5 transition-all duration-300 whitespace-nowrap ${
+                  className={`w-full py-3.5 px-3 rounded-full font-display font-bold text-[11px] sm:text-xs tracking-wider uppercase flex items-center justify-center gap-1.5 transition-all duration-300 whitespace-nowrap ${
                     tier.popular
                       ? 'bg-rb-red hover:bg-rb-redGlow text-white shadow-glow-red hover:scale-105 active:scale-95'
                       : 'bg-white/10 hover:bg-white/20 text-white hover:border-white/30'
@@ -440,7 +446,7 @@ export const TicketSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Tier Comparison Matrix Table - Permanently Visible */}
+        {/* Tier Comparison Matrix Table */}
         <div className="mt-14 glass-panel p-6 sm:p-10 rounded-3xl border border-white/15 overflow-x-auto shadow-2xl">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
             <div>

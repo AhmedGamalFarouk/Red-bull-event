@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { audio } from '../utils/audio';
-import { MapPin, Bus, Sun, Shield, HelpCircle, ChevronDown, Sparkles, Coffee, Glasses } from 'lucide-react';
+import { MapPin, Bus, Sun, Shield, ChevronDown, Sparkles, Coffee, Glasses, CheckCircle2, Navigation } from 'lucide-react';
 
 export const VenueExperienceSection: React.FC = () => {
   const [activeFaq, setActiveFaq] = useState<number | null>(0);
@@ -10,8 +10,9 @@ export const VenueExperienceSection: React.FC = () => {
       title: 'PYRAMIDS DUNE COLISEUM',
       location: 'GIZA PLATEAU // CAIRO',
       desc: 'Prime stadium grandstand with shaded canopies and panoramic sightlines of 1,050 BHP Trophy Trucks launching 45 meters over towering desert dunes.',
-      highlights: ['Dakar Dune Jump Corridor', 'Air-Conditioned VIP Lounges', 'High-Speed Telemetry Screens'],
+      highlights: ['Dakar Dune Corridor', 'Air-Conditioned VIP Lounges', 'Live Telemetry Video Walls'],
       accent: 'border-rb-red/50 text-rb-red',
+      tag: 'ARENA 01',
     },
     {
       title: 'RED SEA MARINE BASIN',
@@ -19,20 +20,23 @@ export const VenueExperienceSection: React.FC = () => {
       desc: 'Floating spectator platforms anchored over the legendary 100-meter marine sinkhole, offering water-level views of 30-meter high dives.',
       highlights: ['Floating VIP Pontoons', 'Coral Shelf Viewing Deck', 'Chilled Beachfront Bar'],
       accent: 'border-rb-cyan/50 text-rb-cyan',
+      tag: 'ARENA 02',
     },
     {
       title: 'SINAI DESERT BASECAMP',
       location: 'COLORED CANYON // SOUTH SINAI',
       desc: 'High-altitude desert terrace carved into ancient sandstone hills, overlooking the 105-foot downhill canyon gaps and natural drop couloirs.',
-      highlights: ['Dune Buggy Staging Grounds', 'Sunset Mountain Lounge', 'Raw Natural Amphitheater'],
+      highlights: ['Dune Buggy Staging', 'Sunset Mountain Lounge', 'Raw Natural Amphitheater'],
       accent: 'border-rb-yellow/50 text-rb-yellow',
+      tag: 'ARENA 03',
     },
     {
       title: 'SPHINX MIDNIGHT SOUNDSTAGE',
       location: 'GREAT SPHINX COMPLEX // GIZA',
       desc: 'Monumental evening music arena with 3D laser projection mapping onto ancient monuments and international headline electronic artists.',
-      highlights: ['Laser Monument Projection', 'Full-Scale Festival Audio', 'All-Night Artisan Food Village'],
+      highlights: ['Laser Monument Projection', 'Full-Scale Festival Audio', 'Artisan Culinary Village'],
       accent: 'border-white/50 text-white',
+      tag: 'ARENA 04',
     },
   ];
 
@@ -41,16 +45,19 @@ export const VenueExperienceSection: React.FC = () => {
       icon: Glasses,
       title: 'DAKAR HYDRAULIC SIMULATOR',
       desc: 'Strap into a 6-DOF hydraulic motion rig and experience Nasser Al-Attiyah’s 1,050 BHP Trophy Truck conquering steep desert dunes with full force haptics.',
+      tag: 'HAPTIC SIM',
     },
     {
       icon: Sparkles,
       title: 'F1 RED BULL SIMULATOR RIGS',
       desc: 'Compete on custom Red Bull Racing motion simulators calibrated to the high-speed twists of the New Cairo Grand Circuit.',
+      tag: 'PRO TELEMETRY',
     },
     {
       icon: Coffee,
       title: 'RED BULL MIXOLOGY LAB',
       desc: 'Exclusive Egypt mocktail infusions crafted with chilled Red Bull editions, Egyptian organic hibiscus, and fresh Sinai mint.',
+      tag: 'CRAFT REFRESHMENT',
     },
   ];
 
@@ -89,7 +96,7 @@ export const VenueExperienceSection: React.FC = () => {
             <div className="flex items-center gap-3 mb-3">
               <span className="w-8 h-0.5 bg-rb-cyan" />
               <span className="font-mono text-xs font-bold tracking-widest text-rb-cyan uppercase">
-                VENUE GUIDE // THE FESTIVAL EXPERIENCE
+                CHAPTER 03 // VENUE GUIDE & FESTIVAL HUBS
               </span>
             </div>
             <h2 className="text-4xl sm:text-6xl font-display font-black tracking-tight text-white uppercase leading-none">
@@ -100,29 +107,32 @@ export const VenueExperienceSection: React.FC = () => {
             </h2>
           </div>
 
-          <p className="font-mono text-xs text-rb-silver max-w-md">
-            Explore the four purpose-built competition hubs across Egypt, from desert flight lines to crystalline Red Sea reefs and late-night electronic soundstages.
-          </p>
+          <div className="flex items-center gap-3 font-mono text-xs text-rb-silver">
+            <span className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 flex items-center gap-2">
+              <Bus className="w-3.5 h-3.5 text-rb-cyan" />
+              <span>FREE SHUTTLES EVERY 15 MIN</span>
+            </span>
+          </div>
         </div>
 
-        {/* The 4 Hubs Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
+        {/* 4 Spectator Hubs Bento Matrix */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-14">
           {hubs.map((hub) => (
             <div
               key={hub.title}
-              className={`glass-panel p-6 sm:p-8 rounded-3xl border ${hub.accent.split(' ')[0]} hover:scale-[1.01] transition-all duration-300 shadow-xl`}
+              className={`glass-panel p-6 sm:p-7 rounded-2xl border transition-all duration-300 hover:border-white/30 hover:scale-[1.01] ${hub.accent.split(' ')[0]} relative overflow-hidden`}
             >
-              <div className="flex items-center justify-between mb-3">
-                <span className="font-mono text-[10px] text-rb-muted uppercase tracking-widest flex items-center gap-1.5">
-                  <MapPin className="w-3.5 h-3.5 text-rb-yellow" />
-                  <span>{hub.location}</span>
+              <div className="flex items-center justify-between mb-4">
+                <span className="font-mono text-[10px] font-bold text-rb-muted uppercase tracking-widest px-2.5 py-0.5 rounded bg-white/5 border border-white/10">
+                  {hub.tag}
                 </span>
-                <span className={`font-mono text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-white/10 ${hub.accent.split(' ')[1]}`}>
-                  PRIMARY HUB
+                <span className="font-mono text-xs text-rb-yellow flex items-center gap-1 uppercase tracking-wider">
+                  <MapPin className="w-3.5 h-3.5" />
+                  {hub.location}
                 </span>
               </div>
 
-              <h3 className="text-2xl font-display font-black text-white uppercase mb-3">
+              <h3 className="text-2xl font-display font-black tracking-tight text-white mb-3">
                 {hub.title}
               </h3>
 
@@ -130,49 +140,55 @@ export const VenueExperienceSection: React.FC = () => {
                 {hub.desc}
               </p>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-4 border-t border-white/10">
-                {hub.highlights.map((h) => (
-                  <div key={h} className="text-[10px] font-mono text-white/90 bg-white/5 p-2 rounded-lg text-center">
-                    {h}
-                  </div>
+              <div className="flex flex-wrap gap-2 pt-4 border-t border-white/10">
+                {hub.highlights.map((item) => (
+                  <span
+                    key={item}
+                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/5 font-mono text-[10px] text-white/90 uppercase tracking-wider"
+                  >
+                    <CheckCircle2 className="w-3 h-3 text-rb-cyan" />
+                    {item}
+                  </span>
                 ))}
               </div>
             </div>
           ))}
         </div>
 
-        {/* Experience Village Attractions */}
-        <div className="glass-panel-accent p-8 sm:p-12 rounded-3xl border border-white/15 shadow-2xl mb-16">
-          <div className="text-center max-w-2xl mx-auto mb-10">
-            <span className="font-mono text-xs font-bold text-rb-yellow uppercase tracking-widest">
-              OFF-TRACK ENTERTAINMENT
+        {/* Proving Grounds: Interactive Simulation Attractions */}
+        <div className="mb-16">
+          <div className="flex items-center gap-3 mb-6">
+            <span className="w-5 h-0.5 bg-rb-yellow" />
+            <span className="font-mono text-xs font-bold tracking-widest text-rb-yellow uppercase">
+              INTERACTIVE PROVING GROUNDS // FREE FOR ALL PASS HOLDERS
             </span>
-            <h3 className="text-3xl sm:text-4xl font-display font-black text-white uppercase mt-1">
-              THE RED BULL ENERGY LAB
-            </h3>
-            <p className="font-mono text-xs text-rb-silver mt-2">
-              Between competition heats, immerse in cutting-edge simulation rigs, culinary artistry, and exclusive event gear.
-            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {attractions.map((att) => {
               const Icon = att.icon;
               return (
-                <div key={att.title} className="glass-panel p-6 rounded-2xl border border-white/10 flex flex-col justify-between">
+                <div
+                  key={att.title}
+                  className="glass-panel p-6 rounded-2xl border border-white/10 hover:border-rb-yellow/50 transition-all duration-300 flex flex-col justify-between"
+                >
                   <div>
-                    <div className="w-12 h-12 rounded-xl bg-rb-red/20 text-rb-yellow flex items-center justify-center mb-4">
-                      <Icon className="w-6 h-6" />
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="p-3 rounded-xl bg-rb-yellow/10 text-rb-yellow">
+                        <Icon className="w-6 h-6" />
+                      </div>
+                      <span className="font-mono text-[9px] font-bold text-rb-muted tracking-widest px-2 py-0.5 rounded bg-white/5">
+                        {att.tag}
+                      </span>
                     </div>
-                    <h4 className="font-display font-bold text-lg text-white mb-2">
+
+                    <h4 className="font-display font-black text-lg text-white mb-2 tracking-tight">
                       {att.title}
                     </h4>
+
                     <p className="font-mono text-xs text-rb-silver leading-relaxed">
                       {att.desc}
                     </p>
-                  </div>
-                  <div className="mt-4 pt-4 border-t border-white/5 text-[10px] font-mono text-rb-yellow uppercase">
-                    FREE ACCESS FOR ALL TICKET TIERS
                   </div>
                 </div>
               );
@@ -180,11 +196,13 @@ export const VenueExperienceSection: React.FC = () => {
           </div>
         </div>
 
-        {/* FAQ Accordion */}
+        {/* FAQs Accordion */}
         <div className="max-w-4xl mx-auto w-full">
-          <div className="flex items-center gap-2 mb-6 text-rb-yellow font-mono text-xs font-bold uppercase tracking-widest">
-            <HelpCircle className="w-4 h-4" />
-            <span>FREQUENTLY ASKED QUESTIONS // ATTENDEE ESSENTIALS</span>
+          <div className="flex items-center gap-3 mb-6">
+            <span className="w-5 h-0.5 bg-rb-cyan" />
+            <span className="font-mono text-xs font-bold tracking-widest text-rb-cyan uppercase">
+              LOGISTICS & ATTENDEE INTEL // FAQ
+            </span>
           </div>
 
           <div className="space-y-3">
@@ -193,25 +211,32 @@ export const VenueExperienceSection: React.FC = () => {
               return (
                 <div
                   key={faq.q}
-                  className="glass-panel rounded-2xl border border-white/10 overflow-hidden transition-all duration-200"
+                  className="glass-panel rounded-2xl border border-white/10 overflow-hidden transition-all duration-300"
                 >
                   <button
                     onClick={() => {
                       audio.playClick();
                       setActiveFaq(isOpen ? null : idx);
                     }}
-                    className="w-full p-5 text-left flex items-center justify-between gap-4 font-display font-bold text-sm sm:text-base text-white hover:text-rb-yellow transition-colors"
+                    className="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4 hover:bg-white/5 transition-colors"
                   >
-                    <span>{faq.q}</span>
+                    <div className="flex items-center gap-3.5">
+                      <span className="font-mono text-xs font-bold text-rb-cyan">
+                        [0{idx + 1}]
+                      </span>
+                      <span className="font-display font-bold text-sm sm:text-base text-white tracking-wide">
+                        {faq.q}
+                      </span>
+                    </div>
                     <ChevronDown
-                      className={`w-4 h-4 text-rb-yellow shrink-0 transition-transform duration-300 ${
-                        isOpen ? 'rotate-180' : ''
+                      className={`w-4 h-4 text-rb-silver flex-shrink-0 transition-transform duration-300 ${
+                        isOpen ? 'rotate-180 text-rb-yellow' : ''
                       }`}
                     />
                   </button>
 
                   {isOpen && (
-                    <div className="px-5 pb-5 pt-1 text-xs font-mono text-rb-silver leading-relaxed border-t border-white/5 animate-fade-in">
+                    <div className="px-5 sm:px-6 pb-6 pt-1 border-t border-white/5 font-mono text-xs sm:text-sm text-rb-silver leading-relaxed">
                       {faq.a}
                     </div>
                   )}
