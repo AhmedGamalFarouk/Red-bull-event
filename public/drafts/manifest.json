@@ -7,7 +7,7 @@
     "path": "/drafts/original/",
     "poster": "/drafts/posters/original.jpg",
     "commit": "6341f78",
-    "builtAt": "2026-09-25T18:52:09.087Z"
+    "builtAt": "2026-09-25T19:48:00.539Z"
   },
   {
     "slug": "category-standard",
@@ -16,8 +16,8 @@
     "thesis": "Dark action-sports layout with a spotlit can over the pyramids, stacked Anton wordmark, stat-led arena rows, and slot-aligned can poses.",
     "path": "/drafts/category-standard/",
     "poster": "/drafts/posters/category-standard.jpg",
-    "commit": "427e472",
-    "builtAt": "2026-09-25T18:52:10.891Z"
+    "commit": "b32dfd6",
+    "builtAt": "2026-09-25T19:48:02.630Z"
   },
   {
     "slug": "aluminium",
@@ -26,8 +26,8 @@
     "thesis": "Brutalist identity program using silver and can-blue checkerboard quarter-panels with Anybody typography and slot-aligned can poses.",
     "path": "/drafts/aluminium/",
     "poster": "/drafts/posters/aluminium.jpg",
-    "commit": "50fd7c9",
-    "builtAt": "2026-09-25T18:52:12.522Z"
+    "commit": "78c8430",
+    "builtAt": "2026-09-25T19:48:04.990Z"
   },
   {
     "slug": "midnight-swiss",
@@ -37,7 +37,7 @@
     "path": "/drafts/midnight-swiss/",
     "poster": "/drafts/posters/midnight-swiss.jpg",
     "commit": "03fd251",
-    "builtAt": "2026-09-25T18:52:14.158Z"
+    "builtAt": "2026-09-25T19:48:07.131Z"
   },
   {
     "slug": "photo-annual",
@@ -46,8 +46,8 @@
     "thesis": "Sports-photography annual on white paper stock with uncropped photo plates, leader-line cover, pinned portrait strips, and dry-rendered can.",
     "path": "/drafts/photo-annual/",
     "poster": "/drafts/posters/photo-annual.jpg",
-    "commit": "1fcfe69",
-    "builtAt": "2026-09-25T18:52:15.706Z"
+    "commit": "8dc22b0",
+    "builtAt": "2026-09-25T19:48:09.329Z"
   },
   {
     "slug": "sleek-carbon",
@@ -57,6 +57,6 @@
     "path": "/drafts/sleek-carbon/",
     "poster": "/drafts/posters/sleek-carbon.jpg",
     "commit": "fa5f2ee",
-    "builtAt": "2026-09-25T18:52:17.491Z"
+    "builtAt": "2026-09-25T19:48:12.242Z"
   }
 ]
