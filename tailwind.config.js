@@ -20,16 +20,20 @@ export default {
           cyan: '#00D8FF',
           silver: '#C8CFDD',
           muted: '#8A95AF',
+          line: 'rgba(255,255,255,0.08)',
         }
       },
       fontFamily: {
-        display: ['"Cabinet Grotesk"', '"Syne"', 'Impact', 'sans-serif'],
-        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
-        sans: ['"Inter"', 'system-ui', '-apple-system', 'sans-serif'],
+        display: ['"Syne"', 'Impact', 'sans-serif'],
+        mono: ['"JetBrains Mono Variable"', 'ui-monospace', 'monospace'],
+        sans: ['"Geist Variable"', 'system-ui', '-apple-system', 'sans-serif'],
       },
       letterSpacing: {
         tighter: '-0.05em',
         widest: '0.25em',
+      },
+      transitionTimingFunction: {
+        'out-expo': 'cubic-bezier(0.16, 1, 0.3, 1)',
       },
       boxShadow: {
         'glow-red': '0 0 40px -10px rgba(237, 27, 45, 0.5)',

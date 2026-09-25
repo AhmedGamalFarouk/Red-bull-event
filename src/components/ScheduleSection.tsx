@@ -1,209 +1,146 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { audio } from '../utils/audio';
-import { Calendar, Clock, MapPin, Zap, Flame, Radio, Wind, Trophy, Timer } from 'lucide-react';
+import { useSectionReveal, useSwapAnimation } from '../motion/reveal';
+
+const DAYS = [
+  {
+    date: '13',
+    weekday: 'Fri',
+    title: 'Pyramids Dune Raid Qualifiers',
+    conditions: '26°C, wind 7 kts N',
+    events: [
+      { time: '10:00', end: '13:00', title: 'Dakar Trophy Truck Dune Time Trials', stage: 'Giza Plateau Dune Arena', type: 'Rally Raid' },
+      { time: '14:30', end: '17:00', title: 'Sinai Canyon Freeride Seeding Runs', stage: 'Sinai Colored Canyon', type: 'MTB Freeride' },
+      { time: '19:00', end: '23:00', title: 'Sphinx Twilight Gala and Laser Opening', stage: 'Great Sphinx Amphitheater', type: 'Soundstage' },
+    ],
+  },
+  {
+    date: '14',
+    weekday: 'Sat',
+    title: 'Red Sea Abyss and Capital Drift',
+    conditions: '27°C, water 24°C, wind 11 kts E',
+    events: [
+      { time: '11:00', end: '14:00', title: 'Blue Hole 30 m Cliff Diving Semifinals', stage: 'Dahab Abyss Platform', type: 'Cliff Dive' },
+      { time: '16:00', end: '19:00', title: 'New Capital Drift Masters Tandem Battles', stage: 'Cairo Grand Circuit', type: 'Twin Drift' },
+      { time: '20:30', end: '02:00', title: 'Red Sea Sunset Soundstage Sessions', stage: 'Dahab Beachfront Arena', type: 'Soundstage' },
+    ],
+  },
+  {
+    date: '15',
+    weekday: 'Sun',
+    title: 'World Championship Finale',
+    conditions: '25°C, wind 6 kts NW',
+    events: [
+      { time: '12:00', end: '15:00', title: 'Sinai Canyon 105 ft Gap Superfinal', stage: 'Sinai Red Ridge', type: 'MTB Final' },
+      { time: '15:30', end: '18:00', title: 'Pyramids Dune Raid Championship Final', stage: 'Giza Plateau Dune Arena', type: 'Rally Raid' },
+      { time: '20:30', end: 'Late', title: 'Grand Finale: 1,500-Drone Sky Show', stage: 'Giza Plateau Main Stage', type: 'Sky Finale' },
+    ],
+  },
+];
 
 export const ScheduleSection: React.FC = () => {
-  const [activeDay, setActiveDay] = useState<number>(0);
+  const [activeDay, setActiveDay] = useState(0);
+  const rootRef = useRef<HTMLElement>(null);
+  const day = DAYS[activeDay];
 
-  const days = [
-    {
-      day: 'DAY 01',
-      date: 'FRIDAY, NOVEMBER 13, 2026',
-      title: 'PYRAMIDS DUNE RAID QUALIFIERS',
-      conditions: 'TEMP: 26°C // WIND: 7 KTS N // VISIBILITY: 10 KM',
-      events: [
-        {
-          heat: 'STAGE 01',
-          time: '10:00 - 13:00',
-          title: 'Dakar Trophy Trucks Pyramids Dune Time Trials',
-          stage: 'Giza Plateau Dune Arena',
-          type: 'RALLY RAID',
-          color: 'text-rb-red border-rb-red/40 bg-rb-red/10',
-        },
-        {
-          heat: 'STAGE 02',
-          time: '14:30 - 17:00',
-          title: 'Sinai Canyon Freeride Seeding Runs',
-          stage: 'Sinai Colored Canyon',
-          type: 'MTB FREERIDE',
-          color: 'text-rb-yellow border-rb-yellow/40 bg-rb-yellow/10',
-        },
-        {
-          heat: 'STAGE 03',
-          time: '19:00 - 23:00',
-          title: 'Sphinx Twilight Gala & 3D Laser Projection Opening',
-          stage: 'Great Sphinx Amphitheater',
-          type: 'SOUNDSTAGE',
-          color: 'text-rb-cyan border-rb-cyan/40 bg-rb-cyan/10',
-        },
-      ],
-    },
-    {
-      day: 'DAY 02',
-      date: 'SATURDAY, NOVEMBER 14, 2026',
-      title: 'RED SEA ABYSS & CAPITAL DRIFT',
-      conditions: 'TEMP: 27°C // WATER: 24°C // WIND: 11 KTS E',
-      events: [
-        {
-          heat: 'STAGE 04',
-          time: '11:00 - 14:00',
-          title: 'Dahab Blue Hole 30M Cliff Diving Semifinals',
-          stage: 'Dahab Abyss Platform',
-          type: 'CLIFF DIVE',
-          color: 'text-rb-cyan border-rb-cyan/40 bg-rb-cyan/10',
-        },
-        {
-          heat: 'STAGE 05',
-          time: '16:00 - 19:00',
-          title: 'New Capital Drift Masters 1,250 BHP Tandem Battles',
-          stage: 'Cairo Grand Circuit',
-          type: 'TWIN DRIFT',
-          color: 'text-white border-white/40 bg-white/10',
-        },
-        {
-          heat: 'STAGE 06',
-          time: '20:30 - 02:00',
-          title: 'Red Sea Sunset Soundstage Sessions',
-          stage: 'Dahab Beachfront Arena',
-          type: 'SOUNDSTAGE',
-          color: 'text-rb-yellow border-rb-yellow/40 bg-rb-yellow/10',
-        },
-      ],
-    },
-    {
-      day: 'DAY 03',
-      date: 'SUNDAY, NOVEMBER 15, 2026',
-      title: 'WORLD CHAMPIONSHIP FINALE',
-      conditions: 'TEMP: 25°C // WIND: 6 KTS NW // ATMOSPHERE: PEAK',
-      events: [
-        {
-          heat: 'SUPERFINAL',
-          time: '12:00 - 15:00',
-          title: 'Sinai Canyon 105ft Gap Superfinal Runs',
-          stage: 'Sinai Red Ridge',
-          type: 'MTB FINALS',
-          color: 'text-rb-yellow border-rb-yellow/40 bg-rb-yellow/10',
-        },
-        {
-          heat: 'CHAMPIONSHIP',
-          time: '15:30 - 18:00',
-          title: 'Pyramids Dune Raid World Championship Final',
-          stage: 'Giza Plateau Dune Arena',
-          type: 'RALLY RAID',
-          color: 'text-rb-red border-rb-red/40 bg-rb-red/10',
-        },
-        {
-          heat: 'SPECTACLE',
-          time: '20:30 - LATE',
-          title: 'Grand Finale: Pyramids 1,500-Drone Sky Mapping Show',
-          stage: 'Giza Plateau Main Stage',
-          type: 'SKY FINALE',
-          color: 'text-white border-white/40 bg-white/10',
-        },
-      ],
-    },
-  ];
+  useSectionReveal(rootRef);
+  useSwapAnimation(rootRef, activeDay);
 
   return (
     <section
+      ref={rootRef}
       id="schedule"
       className="relative min-h-[120dvh] w-full flex flex-col justify-center py-24 px-4 sm:px-10 z-20"
     >
-      <div className="max-w-7xl mx-auto w-full">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-8">
-          <div>
-            <div className="flex items-center gap-3 mb-3">
-              <span className="w-8 h-0.5 bg-rb-red" />
-              <span className="font-mono text-xs font-bold tracking-widest text-rb-red uppercase">
-                CHAPTER 05 // EVENT TIMELINE & HEATS
-              </span>
-            </div>
-            <h2 className="text-4xl sm:text-6xl font-display font-black tracking-tight text-white uppercase leading-none">
-              THREE DAYS.
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-rb-yellow via-white to-rb-red">
-                PURE MOMENTUM.
-              </span>
-            </h2>
+      <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        <div className="lg:col-span-7">
+          <h2 data-reveal="title" className="section-title mb-10">
+            Three days. <span className="text-rb-red">Pure momentum.</span>
+          </h2>
+
+          {/* Day switcher: the dates are the controls */}
+          <div data-reveal="up" className="grid grid-cols-3 gap-2 sm:gap-4 mb-10" role="tablist" aria-label="Event days">
+            {DAYS.map((d, idx) => {
+              const active = idx === activeDay;
+              return (
+                <button
+                  key={d.date}
+                  role="tab"
+                  aria-selected={active}
+                  onClick={() => {
+                    if (active) return;
+                    audio.playClick();
+                    setActiveDay(idx);
+                  }}
+                  className="group relative text-left pb-4"
+                >
+                  <span
+                    className={`block font-display font-extrabold leading-none tracking-[-0.05em] text-6xl sm:text-8xl transition-colors duration-500 ${
+                      active ? 'text-white' : 'text-white/15 group-hover:text-white/40'
+                    }`}
+                  >
+                    {d.date}
+                  </span>
+                  <span
+                    className={`block font-mono text-[11px] tracking-[0.16em] uppercase mt-2 transition-colors duration-300 ${
+                      active ? 'text-rb-yellow' : 'text-rb-muted'
+                    }`}
+                  >
+                    {d.weekday} Nov
+                  </span>
+                  <span className="absolute left-0 right-0 bottom-0 h-px bg-white/10" aria-hidden />
+                  <span
+                    className={`absolute left-0 right-0 bottom-0 h-[2px] bg-rb-red origin-left transition-transform duration-700 ease-out-expo ${
+                      active ? 'scale-x-100' : 'scale-x-0'
+                    }`}
+                    aria-hidden
+                  />
+                </button>
+              );
+            })}
           </div>
 
-          {/* Day Switcher Tabs */}
-          <div className="flex items-center gap-2 p-1.5 rounded-full glass-panel border border-white/10 shadow-lg">
-            {days.map((d, idx) => (
-              <button
-                key={d.day}
-                onClick={() => {
-                  audio.playClick();
-                  setActiveDay(idx);
-                }}
-                className={`px-5 py-2.5 rounded-full font-mono text-xs font-bold tracking-wider transition-all duration-300 ${
-                  activeDay === idx
-                    ? 'bg-rb-red text-white shadow-glow-red scale-105'
-                    : 'text-rb-silver hover:text-white hover:bg-white/5'
-                }`}
-              >
-                {d.day}
-              </button>
-            ))}
+          <div data-swap className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 mb-8">
+            <h3 className="font-display font-extrabold uppercase text-white text-xl sm:text-2xl tracking-[-0.03em]">
+              {day.title}
+            </h3>
+            <span className="font-mono text-xs text-rb-muted">{day.conditions}</span>
           </div>
-        </div>
 
-        {/* Live Day Meta bar */}
-        <div className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-xl glass-panel border border-white/5 mb-6 text-xs font-mono">
-          <div className="flex items-center gap-2 text-rb-yellow font-bold">
-            <Radio className="w-4 h-4 animate-pulse text-rb-red" />
-            <span>{days[activeDay].title}</span>
-          </div>
-          <div className="flex items-center gap-4 text-rb-muted text-[11px]">
-            <span>{days[activeDay].date}</span>
-            <span className="hidden md:inline text-rb-silver">•</span>
-            <span className="hidden md:inline">{days[activeDay].conditions}</span>
-          </div>
-        </div>
+          {/* Timeline: static track plus a red rail that fills with scroll */}
+          <div className="relative pl-7 sm:pl-9">
+            <span className="absolute left-[5px] top-2 bottom-2 w-px bg-white/10" aria-hidden />
+            <span data-draw="y" className="absolute left-[5px] top-2 bottom-2 w-px bg-rb-red" aria-hidden />
 
-        {/* 
-          Asymmetric Schedule Grid:
-          - Left (lg:col-span-8): The 3 Events
-          - Right (lg:col-span-4): Reserved open channel for the 3D Can
-        */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-3 gap-5">
-            {days[activeDay].events.map((event) => (
-              <div
-                key={event.title}
-                className="glass-panel p-5 sm:p-6 rounded-2xl border border-white/10 hover:border-rb-red/50 transition-all duration-300 hover:-translate-y-1 shadow-xl flex flex-col justify-between group"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-1.5 text-xs font-mono text-rb-yellow">
-                      <Clock className="w-3.5 h-3.5" />
-                      <span>{event.time}</span>
+            <ol className="space-y-9">
+              {day.events.map((ev) => (
+                <li key={`${day.date}-${ev.time}`} data-swap className="relative">
+                  <span
+                    className="absolute -left-7 sm:-left-9 top-1.5 w-[11px] h-[11px] rounded-full border-2 border-rb-red bg-rb-dark"
+                    aria-hidden
+                  />
+                  <div className="grid grid-cols-1 sm:grid-cols-[7.5rem_1fr] gap-x-6 gap-y-1.5">
+                    <p className="font-mono text-sm text-rb-yellow pt-0.5">
+                      {ev.time}
+                      <span className="text-rb-muted"> - {ev.end}</span>
+                    </p>
+                    <div>
+                      <h4 className="font-display font-bold uppercase text-white text-lg sm:text-xl leading-tight tracking-[-0.02em] mb-1.5">
+                        {ev.title}
+                      </h4>
+                      <p className="text-sm text-rb-muted">
+                        {ev.stage} &middot; {ev.type}
+                      </p>
                     </div>
-                    <span className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded-full border ${event.color}`}>
-                      {event.heat}
-                    </span>
                   </div>
-
-                  <div className="font-mono text-[9px] text-rb-muted uppercase tracking-wider mb-2">
-                    CATEGORY: {event.type}
-                  </div>
-
-                  <h3 className="text-lg font-display font-black text-white mb-4 group-hover:text-rb-yellow transition-colors leading-snug">
-                    {event.title}
-                  </h3>
-                </div>
-
-                <div className="pt-3 border-t border-white/10 flex items-center gap-2 text-xs font-mono text-rb-muted">
-                  <MapPin className="w-3.5 h-3.5 text-rb-silver flex-shrink-0" />
-                  <span className="truncate">{event.stage}</span>
-                </div>
-              </div>
-            ))}
+                </li>
+              ))}
+            </ol>
           </div>
-
-          {/* Right Column: Reserved negative space for 3D Can */}
-          <div className="hidden lg:flex lg:col-span-4 min-h-[360px] pointer-events-none relative" />
         </div>
+
+        {/* Open lane for the can */}
+        <div className="hidden lg:block lg:col-span-5 min-h-[360px] pointer-events-none" aria-hidden />
       </div>
     </section>
   );

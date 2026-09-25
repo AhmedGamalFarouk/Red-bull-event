@@ -1,108 +1,105 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import gsap from 'gsap';
+import { SplitText } from 'gsap/SplitText';
+import { useGSAP } from '@gsap/react';
 import { audio } from '../utils/audio';
-import { ArrowDown, Flame, Compass, Radio, ChevronRight } from 'lucide-react';
+import { ArrowDown, ArrowUpRight } from 'lucide-react';
+import { Magnetic } from '../motion/Magnetic';
+import { EASE_OUT } from '../motion/reveal';
 
 interface HeroSectionProps {
+  ready: boolean;
   onExploreClick: () => void;
+  onPassesClick: () => void;
 }
 
-export const HeroSection: React.FC<HeroSectionProps> = ({
-  onExploreClick,
-}) => {
+export const HeroSection: React.FC<HeroSectionProps> = ({ ready, onExploreClick, onPassesClick }) => {
+  const rootRef = useRef<HTMLElement>(null);
+
+  useGSAP(
+    () => {
+      if (!ready) return;
+      const mm = gsap.matchMedia();
+      mm.add('(prefers-reduced-motion: no-preference)', () => {
+        const split = SplitText.create('.hero-word', { type: 'chars', mask: 'chars' });
+
+        gsap
+          .timeline({ defaults: { ease: EASE_OUT } })
+          .from(split.chars, { yPercent: 120, duration: 1.3, stagger: 0.045 })
+          .from('.hero-sub-word', { clipPath: 'inset(0 0 100% 0)', yPercent: 30, duration: 1.2 }, '-=1.0')
+          .from('[data-hero-in]', { autoAlpha: 0, y: 24, duration: 1, stagger: 0.08 }, '-=0.8')
+          .from('.hero-rule', { scaleX: 0, transformOrigin: 'left center', duration: 1.4 }, '<');
+
+        // Headline eases up and dims as the hero scrolls away (content only; the can is untouched)
+        gsap.to('.hero-lockup', {
+          yPercent: -18,
+          autoAlpha: 0.15,
+          ease: 'none',
+          scrollTrigger: { trigger: rootRef.current, start: 'top top', end: 'bottom top', scrub: true },
+        });
+
+        return () => split.revert();
+      });
+    },
+    { scope: rootRef, dependencies: [ready] }
+  );
+
   return (
     <section
+      ref={rootRef}
       id="hero"
-      className="relative min-h-[100dvh] w-full flex flex-col justify-between pt-24 sm:pt-28 pb-10 px-4 sm:px-10 z-20 pointer-events-none select-none"
+      className="relative min-h-[100dvh] w-full flex flex-col pt-24 sm:pt-28 pb-8 sm:pb-10 px-4 sm:px-10 z-20 pointer-events-none select-none"
     >
-      {/* HUD Telemetry Top Header */}
-      <div className="max-w-7xl mx-auto w-full flex items-center justify-between pointer-events-auto border-b border-white/10 pb-3 pt-2 text-[10px] font-mono tracking-widest text-rb-muted uppercase">
-        <div className="flex items-center gap-3">
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-rb-red/20 text-rb-red font-bold border border-rb-red/30">
-            <span className="w-1.5 h-1.5 rounded-full bg-rb-red animate-ping" />
-            LIVE TELEMETRY
-          </span>
-          <span className="hidden md:inline text-rb-silver">
-            GIZA // DAHAB // SINAI // NEW CAIRO
-          </span>
-        </div>
-        <div className="flex items-center gap-4">
-          <span className="hidden sm:inline">29°58′45″N 31°08′03″E</span>
-          <span className="text-rb-yellow font-bold">13–15 NOV 2026</span>
+      {/* Monumental lockup: sits above the can's centre stage */}
+      <div className="hero-lockup max-w-7xl mx-auto w-full text-center">
+        <h1 className="hero-word font-display font-extrabold text-white leading-[0.85] tracking-[-0.055em] text-[11.5vw] xl:text-[9.5rem] 2xl:text-[10.5rem] drop-shadow-2xl">
+          REDBULL
+        </h1>
+        <div className="hero-sub-word font-display font-extrabold leading-[0.9] tracking-[-0.04em] text-[9vw] xl:text-[8rem] text-transparent bg-clip-text bg-gradient-to-b from-white via-rb-silver to-white/15 -mt-1 sm:-mt-4">
+          GRAVITY
         </div>
       </div>
 
-      {/* Monumental Headline Header (Upper Tier - Above & Behind 3D Can) */}
-      <div className="max-w-7xl mx-auto w-full text-center pointer-events-none pt-4">
-        <div className="relative inline-block">
-          <div className="flex items-center justify-center gap-2 mb-2">
-            <span className="w-6 h-px bg-rb-yellow/60" />
-            <span className="font-mono text-[10px] sm:text-xs font-bold tracking-[0.3em] text-rb-yellow uppercase">
-              EXTREME ADRENALINE SPECTACLE
-            </span>
-            <span className="w-6 h-px bg-rb-yellow/60" />
+      {/* Open stage for the 3D can */}
+      <div className="flex-1 min-h-[24vh]" aria-hidden />
+
+      {/* Base line: where + when, one sentence, two actions */}
+      <div className="max-w-7xl mx-auto w-full pointer-events-auto">
+        <span className="hero-rule block h-px w-full bg-white/15 mb-5 sm:mb-6" />
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-5 md:gap-8 items-end">
+          <div className="md:col-span-7 lg:col-span-6 text-center md:text-left">
+            <p data-hero-in className="font-mono text-[11px] sm:text-xs tracking-[0.18em] uppercase text-rb-yellow mb-2.5">
+              13-15 Nov 2026 &middot; Giza, Dahab, Sinai, New Cairo
+            </p>
+            <p data-hero-in className="text-base sm:text-lg text-rb-silver leading-relaxed max-w-[46ch] mx-auto md:mx-0">
+              Dakar trucks over the Giza dunes, 30-meter dives into the Red Sea, and drift battles through Cairo.
+            </p>
           </div>
 
-          <h1 className="text-5xl xs:text-6xl sm:text-8xl md:text-9xl lg:text-[11.5rem] font-display font-black tracking-tighter text-white leading-none select-none drop-shadow-2xl">
-            REDBULL
-          </h1>
-          <div className="text-3xl xs:text-4xl sm:text-6xl md:text-7xl lg:text-9xl font-display font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white via-rb-silver to-white/15 -mt-2 sm:-mt-6">
-            GRAVITY
+          <div data-hero-in className="md:col-span-5 lg:col-span-6 flex flex-wrap items-center justify-center md:justify-end gap-3">
+            <Magnetic>
+              <button
+                onClick={() => {
+                  audio.playClick();
+                  onPassesClick();
+                }}
+                className="group inline-flex items-center gap-2.5 h-12 sm:h-14 px-7 sm:px-8 rounded-full bg-rb-red hover:bg-rb-redGlow text-white font-display font-bold text-sm tracking-[0.14em] uppercase shadow-glow-red transition-colors duration-300 active:scale-[0.97]"
+              >
+                Get Passes
+                <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </button>
+            </Magnetic>
+            <button
+              onClick={() => {
+                audio.playClick();
+                onExploreClick();
+              }}
+              className="group inline-flex items-center gap-2.5 h-12 sm:h-14 px-6 rounded-full border border-white/20 hover:border-white/50 bg-rb-dark/40 backdrop-blur-sm text-white font-display font-bold text-sm tracking-[0.14em] uppercase transition-colors duration-300 active:scale-[0.97]"
+            >
+              Explore Arenas
+              <ArrowDown className="w-4 h-4 text-rb-yellow transition-transform duration-300 group-hover:translate-y-0.5" />
+            </button>
           </div>
-        </div>
-      </div>
-
-      {/* Open Middle Window: 100% Unobstructed Stage for the 3D Red Bull Can */}
-      <div className="my-auto min-h-[26vh] sm:min-h-[32vh] relative flex items-center justify-between max-w-7xl mx-auto w-full pointer-events-none px-4">
-        {/* Subtle HUD Reticle Marks on the flanks */}
-        <div className="hidden lg:flex flex-col gap-2 font-mono text-[9px] text-rb-muted/40 tracking-wider">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 border-l border-t border-rb-yellow/40" />
-            <span>STAGE: FLIGHT DECK</span>
-          </div>
-          <span className="pl-4">AIRFLOW: 240 KM/H</span>
-        </div>
-        <div className="hidden lg:flex flex-col items-end gap-2 font-mono text-[9px] text-rb-muted/40 tracking-wider">
-          <div className="flex items-center gap-2">
-            <span>ROTATION: 360° INTERACTIVE</span>
-            <span className="w-2 h-2 border-r border-t border-rb-cyan/40" />
-          </div>
-          <span className="pr-4">CAN DRAG: ACTIVE</span>
-        </div>
-      </div>
-
-      {/* Lower Bar: Content shifted to Left and Right flanks so Center remains completely clear */}
-      <div className="max-w-7xl mx-auto w-full flex flex-col md:flex-row items-center justify-between gap-6 pointer-events-auto pt-5 border-t border-white/10 bg-rb-dark/40 backdrop-blur-sm rounded-t-2xl px-4 sm:px-6">
-        {/* Left Flank: Subheadline & Location Manifesto */}
-        <div className="max-w-md text-center md:text-left">
-          <div className="flex items-center justify-center md:justify-start gap-2 mb-1.5 font-mono text-[10px] text-rb-yellow tracking-widest uppercase font-semibold">
-            <Flame className="w-3.5 h-3.5 text-rb-red" />
-            <span>28 Champions • 4 Arenas • 1,250 BHP</span>
-          </div>
-          <p className="text-xs sm:text-sm text-rb-silver font-sans leading-relaxed">
-            Witness world champions launch 1,050 BHP Dakar Trophy Trucks over Giza dunes, 30-meter dives into the Red Sea, and high-speed drift battles through Cairo.
-          </p>
-        </div>
-
-        {/* Right Flank: Action CTAs & Scroll Descend */}
-        <div className="flex flex-wrap items-center justify-center md:justify-end gap-3 sm:gap-4">
-          <a
-            href="#tickets"
-            onClick={() => audio.playClick()}
-            className="group relative inline-flex items-center gap-2 px-6 sm:px-7 py-3 rounded-full bg-gradient-to-r from-rb-red via-[#e00d20] to-rb-red text-white font-mono text-xs font-bold tracking-widest uppercase hover:brightness-110 shadow-glow-red hover:shadow-lg transition-all hover:scale-105 active:scale-95"
-          >
-            <span>Lock In Passes</span>
-            <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-          </a>
-          <button
-            onClick={() => {
-              audio.playClick();
-              onExploreClick();
-            }}
-            className="group flex items-center gap-2.5 px-5 py-3 rounded-full glass-panel border border-white/15 hover:border-rb-yellow text-white font-mono text-xs font-semibold tracking-wider uppercase hover:bg-white/10 transition-all active:scale-95"
-          >
-            <span>Descend</span>
-            <ArrowDown className="w-3.5 h-3.5 text-rb-yellow group-hover:translate-y-0.5 transition-transform" />
-          </button>
         </div>
       </div>
     </section>

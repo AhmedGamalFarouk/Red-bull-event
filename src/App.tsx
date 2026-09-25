@@ -22,6 +22,8 @@ const SECTION_IDS = ['hero', 'arenas', 'athletes', 'experience', 'anatomy', 'sch
 
 export const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
+  // True once the preloader starts revealing the scene: hero + nav intros land with the can
+  const [revealed, setRevealed] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [activeFlavor, setActiveFlavor] = useState<FlavorConfig>(FLAVORS[0]);
   const [audioActive, setAudioActive] = useState(false);
@@ -147,6 +149,7 @@ export const App: React.FC = () => {
       {/* Cinematic Intro Preloader */}
       {loading && (
         <Preloader
+          onReveal={() => setRevealed(true)}
           onComplete={() => {
             setLoading(false);
             setAudioActive(audio.enabled);
@@ -184,7 +187,10 @@ export const App: React.FC = () => {
 
       {/* Top Navbar */}
       <Navbar
+        ready={revealed}
         onNavigate={handleNavigate}
+        activeId={SECTION_IDS[Math.round(scrollProgress)] ?? 'hero'}
+        progress={scrollProgress / (SECTION_IDS.length - 1)}
         audioActive={audioActive}
         onToggleAudio={handleToggleAudio}
       />
@@ -193,7 +199,9 @@ export const App: React.FC = () => {
       <main className="relative z-20">
         {/* Hero Chapter (Index 0) */}
         <HeroSection
+          ready={revealed}
           onExploreClick={() => handleNavigate('arenas')}
+          onPassesClick={() => handleNavigate('tickets')}
         />
 
         {/* Chapter 01: The Four Egyptian Arenas (Index 1) */}
