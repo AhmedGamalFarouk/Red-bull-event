@@ -327,7 +327,8 @@ export const RedBullCan: React.FC<RedBullCanProps> = ({
     <group
       ref={groupRef}
       onPointerDown={handlePointerDown}
-      cursor="grab"
+      onPointerOver={() => (document.body.style.cursor = 'grab')}
+      onPointerOut={() => (document.body.style.cursor = '')}
     >
       <primitive object={clonedScene} />
     </group>

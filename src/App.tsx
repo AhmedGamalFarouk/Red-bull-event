@@ -103,11 +103,12 @@ export const App: React.FC = () => {
       ScrollTrigger.refresh();
     }, 150);
 
-    window.addEventListener('resize', ScrollTrigger.refresh);
+    const handleResize = () => ScrollTrigger.refresh();
+    window.addEventListener('resize', handleResize);
 
     return () => {
       clearTimeout(timer);
-      window.removeEventListener('resize', ScrollTrigger.refresh);
+      window.removeEventListener('resize', handleResize);
       gsap.ticker.remove(tickerCallback);
       lenis.destroy();
     };
