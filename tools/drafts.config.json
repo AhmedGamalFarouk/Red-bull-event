@@ -1,0 +1,38 @@
+[
+  {
+    "slug": "original",
+    "ref": "6341f78",
+    "name": "Original",
+    "thesis": "Dark neon layout with dynamic energy glows, a 3D can scroll flight path, and an animated GSAP tachometer preloader."
+  },
+  {
+    "slug": "category-standard",
+    "ref": "redesign/category-standard",
+    "name": "Category Standard",
+    "thesis": "Dark action-sports layout with a spotlit can over the pyramids, stacked Anton wordmark, stat-led arena rows, and slot-aligned can poses."
+  },
+  {
+    "slug": "aluminium",
+    "ref": "redesign/aluminium",
+    "name": "Aluminium",
+    "thesis": "Brutalist identity program using silver and can-blue checkerboard quarter-panels with Anybody typography and slot-aligned can poses."
+  },
+  {
+    "slug": "midnight-swiss",
+    "ref": "redesign/midnight-swiss",
+    "name": "Midnight Swiss",
+    "thesis": "Editorial Swiss design on a Red Bull navy field featuring a 12-column hairline grid, Archivo and Geist typography, index tables, and a single red accent."
+  },
+  {
+    "slug": "photo-annual",
+    "ref": "redesign/photo-annual",
+    "name": "Photo Annual",
+    "thesis": "Sports-photography annual on white paper stock with uncropped photo plates, leader-line cover, pinned portrait strips, and dry-rendered can."
+  },
+  {
+    "slug": "sleek-carbon",
+    "ref": "redesign/sleek-carbon",
+    "name": "Sleek Carbon",
+    "thesis": "Dark hardware-inspired interface with double-bezel framed panels, carbon-mesh gradients, floating glass islands, and minimalist typography."
+  }
+]
