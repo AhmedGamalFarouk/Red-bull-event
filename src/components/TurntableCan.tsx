@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect, useMemo, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { useGLTF, Environment, ContactShadows } from '@react-three/drei';
+import { useGLTF, useTexture, Environment, ContactShadows } from '@react-three/drei';
 import * as THREE from 'three';
 import { prefersReducedMotion } from '../utils/motion';
 
@@ -12,6 +12,13 @@ interface ModelProps {
 const CanModel: React.FC<ModelProps> = ({ isDraggingRef, dragDeltaRef }) => {
   const groupRef = useRef<THREE.Group>(null);
   const { scene } = useGLTF('/models/redbull_can.glb');
+  const drops = useTexture('/textures/can-drops-normal.webp', (t) => {
+    const tex = t as THREE.Texture;
+    tex.flipY = false; // glTF UV convention
+    tex.wrapS = THREE.RepeatWrapping;
+    tex.colorSpace = THREE.NoColorSpace;
+    tex.anisotropy = 8;
+  });
 
   const clonedScene = useMemo(() => {
     const cloned = scene.clone(true);
@@ -27,6 +34,23 @@ const CanModel: React.FC<ModelProps> = ({ isDraggingRef, dragDeltaRef }) => {
         mesh.receiveShadow = true;
         if (mesh.material) {
           const mat = (mesh.material as THREE.MeshStandardMaterial).clone();
+          if (mat.name === 'label') {
+            // Wet can, matching the drafts: smooth metal under a clear coat carrying the bead normals
+            mesh.material = new THREE.MeshPhysicalMaterial({
+              name: 'label',
+              map: mat.map,
+              color: mat.color,
+              side: mat.side,
+              metalness: 0.85,
+              roughness: 0.28,
+              envMapIntensity: 1.2,
+              clearcoat: 0.85,
+              clearcoatRoughness: 0.06,
+              clearcoatNormalMap: drops,
+              clearcoatNormalScale: new THREE.Vector2(0.75, 0.75),
+            });
+            return;
+          }
           mat.roughnessMap = null;
           mat.metalnessMap = null;
           mat.metalness = 0.9;
@@ -38,7 +62,7 @@ const CanModel: React.FC<ModelProps> = ({ isDraggingRef, dragDeltaRef }) => {
     });
 
     return cloned;
-  }, [scene]);
+  }, [scene, drops]);
 
   useFrame((_, delta) => {
     if (!groupRef.current) return;
@@ -61,6 +85,7 @@ const CanModel: React.FC<ModelProps> = ({ isDraggingRef, dragDeltaRef }) => {
 };
 
 useGLTF.preload('/models/redbull_can.glb');
+useTexture.preload('/textures/can-drops-normal.webp');
 
 class WebGLErrorBoundary extends React.Component<
   { fallback: React.ReactNode; children: React.ReactNode },

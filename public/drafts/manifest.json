@@ -1,13 +1,13 @@
 [
   {
     "slug": "original",
-    "ref": "6341f78",
+    "ref": "redesign/original",
     "name": "Original",
     "thesis": "Dark neon layout with dynamic energy glows, a 3D can scroll flight path, and an animated GSAP tachometer preloader.",
     "path": "/drafts/original/",
     "poster": "/drafts/posters/original.jpg",
-    "commit": "6341f78",
-    "builtAt": "2026-09-25T19:48:00.539Z"
+    "commit": "98add41",
+    "builtAt": "2026-09-25T20:12:36.816Z"
   },
   {
     "slug": "category-standard",
@@ -17,7 +17,7 @@
     "path": "/drafts/category-standard/",
     "poster": "/drafts/posters/category-standard.jpg",
     "commit": "b32dfd6",
-    "builtAt": "2026-09-25T19:48:02.630Z"
+    "builtAt": "2026-09-25T20:12:39.469Z"
   },
   {
     "slug": "aluminium",
@@ -27,7 +27,7 @@
     "path": "/drafts/aluminium/",
     "poster": "/drafts/posters/aluminium.jpg",
     "commit": "78c8430",
-    "builtAt": "2026-09-25T19:48:04.990Z"
+    "builtAt": "2026-09-25T20:12:41.176Z"
   },
   {
     "slug": "midnight-swiss",
@@ -36,8 +36,8 @@
     "thesis": "Editorial Swiss design on a Red Bull navy field featuring a 12-column hairline grid, Archivo and Geist typography, index tables, and a single red accent.",
     "path": "/drafts/midnight-swiss/",
     "poster": "/drafts/posters/midnight-swiss.jpg",
-    "commit": "03fd251",
-    "builtAt": "2026-09-25T19:48:07.131Z"
+    "commit": "28ef137",
+    "builtAt": "2026-09-25T20:12:42.953Z"
   },
   {
     "slug": "photo-annual",
@@ -47,7 +47,7 @@
     "path": "/drafts/photo-annual/",
     "poster": "/drafts/posters/photo-annual.jpg",
     "commit": "4239806",
-    "builtAt": "2026-09-25T19:57:59.394Z"
+    "builtAt": "2026-09-25T20:12:44.490Z"
   },
   {
     "slug": "sleek-carbon",
@@ -56,7 +56,7 @@
     "thesis": "Dark hardware-inspired interface with double-bezel framed panels, carbon-mesh gradients, floating glass islands, and minimalist typography.",
     "path": "/drafts/sleek-carbon/",
     "poster": "/drafts/posters/sleek-carbon.jpg",
-    "commit": "fa5f2ee",
-    "builtAt": "2026-09-25T19:48:12.242Z"
+    "commit": "d3e9d22",
+    "builtAt": "2026-09-25T20:12:46.398Z"
   }
 ]
