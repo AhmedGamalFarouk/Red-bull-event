@@ -41,7 +41,7 @@ Spins up a lightweight local static server for `public/` and drives headless Pla
 npm run drafts:posters
 
 # Or capture posters for specific drafts
-node tools/capture-posters.mjs sleek-carbon
+node tools/capture-posters.mjs midnight-swiss
 ```
 
 ## When to Rerun

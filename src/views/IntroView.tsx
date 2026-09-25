@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { useShowroomStore } from '../store/showroomStore';
 import { TurntableCan } from '../components/TurntableCan';
+import { MANIFEST } from '../data/manifest';
 
 gsap.registerPlugin(useGSAP);
 
@@ -96,7 +97,7 @@ export const IntroView: React.FC<IntroViewProps> = ({ onNavigate }) => {
               onClick={() => onNavigate('results')}
               className="text-ink hover:text-slate transition-colors font-bold cursor-pointer"
             >
-              RESULTS ({scoredCount}/6)
+              RESULTS ({scoredCount}/{MANIFEST.length})
             </button>
           )}
         </div>
@@ -107,13 +108,13 @@ export const IntroView: React.FC<IntroViewProps> = ({ onNavigate }) => {
         {/* Left Column: Typography & CTAs */}
         <div className="lg:col-span-7 flex flex-col justify-center">
           <div className="font-utility text-xs tracking-utility text-slate mb-3 uppercase">
-            Design review · 6 drafts
+            Design review · {MANIFEST.length} drafts
           </div>
 
           <h1 className="font-display font-black text-4xl sm:text-6xl xl:text-7xl leading-[0.92] text-ink uppercase tracking-tight mb-6">
             <span className="block overflow-hidden pb-1">
               <span ref={line1Ref} className="block">
-                Six drafts of
+                Three drafts of
               </span>
             </span>
             <span className="block overflow-hidden pb-1">
@@ -136,7 +137,7 @@ export const IntroView: React.FC<IntroViewProps> = ({ onNavigate }) => {
             <div className="mb-6 font-utility text-xs tracking-utility text-slate inline-flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-card inline-block border border-ink" />
               <span>
-                {scoredCount} OF 6 DRAFTS SCORED
+                {scoredCount} OF {MANIFEST.length} DRAFTS SCORED
               </span>
             </div>
           )}

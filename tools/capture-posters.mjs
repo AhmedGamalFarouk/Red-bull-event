@@ -51,7 +51,7 @@ function startStaticServer(baseDir) {
         const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
         let pathname = decodeURIComponent(parsedUrl.pathname);
 
-        // Redirect bare draft paths without trailing slash e.g. /drafts/original -> /drafts/original/
+        // Redirect bare draft paths without trailing slash e.g. /drafts/aluminium -> /drafts/aluminium/
         if (/^\/drafts\/[^/]+$/.test(pathname)) {
           res.writeHead(302, { Location: `${pathname}/${parsedUrl.search}` });
           res.end();

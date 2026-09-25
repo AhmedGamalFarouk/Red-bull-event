@@ -1,15 +1,5 @@
 [
   {
-    "slug": "original",
-    "ref": "redesign/original",
-    "name": "Original",
-    "thesis": "Dark neon layout with dynamic energy glows, a 3D can scroll flight path, and an animated GSAP tachometer preloader.",
-    "path": "/drafts/original/",
-    "poster": "/drafts/posters/original.jpg",
-    "commit": "98add41",
-    "builtAt": "2026-09-25T20:12:36.816Z"
-  },
-  {
     "slug": "category-standard",
     "ref": "redesign/category-standard",
     "name": "Category Standard",
@@ -36,27 +26,7 @@
     "thesis": "Editorial Swiss design on a Red Bull navy field featuring a 12-column hairline grid, Archivo and Geist typography, index tables, and a single red accent.",
     "path": "/drafts/midnight-swiss/",
     "poster": "/drafts/posters/midnight-swiss.jpg",
-    "commit": "28ef137",
-    "builtAt": "2026-09-25T20:12:42.953Z"
-  },
-  {
-    "slug": "photo-annual",
-    "ref": "redesign/photo-annual",
-    "name": "Photo Annual",
-    "thesis": "Sports-photography annual on white paper stock with uncropped photo plates, a captioned cover, pinned portrait strips, and dry-rendered can.",
-    "path": "/drafts/photo-annual/",
-    "poster": "/drafts/posters/photo-annual.jpg",
-    "commit": "4fdf4e6",
-    "builtAt": "2026-09-25T20:38:54.424Z"
-  },
-  {
-    "slug": "sleek-carbon",
-    "ref": "redesign/sleek-carbon",
-    "name": "Sleek Carbon",
-    "thesis": "Dark hardware-inspired interface with double-bezel framed panels, carbon-mesh gradients, floating glass islands, and minimalist typography.",
-    "path": "/drafts/sleek-carbon/",
-    "poster": "/drafts/posters/sleek-carbon.jpg",
-    "commit": "d3e9d22",
-    "builtAt": "2026-09-25T20:12:46.398Z"
+    "commit": "eb55d9d",
+    "builtAt": "2026-09-25T20:49:42.594Z"
   }
 ]

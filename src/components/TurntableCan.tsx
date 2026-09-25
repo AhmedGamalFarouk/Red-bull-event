@@ -166,7 +166,7 @@ export const TurntableCan: React.FC<{ className?: string }> = ({ className = '' 
   const fallbackImage = (
     <div className="w-full h-full flex items-center justify-center bg-paper/60 p-4 border border-slate/20">
       <img
-        src="/drafts/posters/original.jpg"
+        src="/drafts/posters/aluminium.jpg"
         alt="Red Bull Can"
         className="max-h-[85%] max-w-[85%] object-contain contrast-110"
       />
