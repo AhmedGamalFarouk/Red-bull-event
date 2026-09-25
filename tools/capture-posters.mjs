@@ -104,6 +104,29 @@ function startStaticServer(baseDir) {
   });
 }
 
+async function bypassPreloaderGate(page) {
+  try {
+    const candidates = page.locator('button, a, [role="button"]');
+    const count = await candidates.count();
+    for (let i = 0; i < count; i++) {
+      const el = candidates.nth(i);
+      const isVisible = await el.isVisible().catch(() => false);
+      if (isVisible) {
+        const text = (await el.innerText().catch(() => '')).trim();
+        if (/enter|explore|start|skip/i.test(text)) {
+          console.log(`Found preloader gate button ("${text}"), clicking...`);
+          await el.click().catch(() => {});
+          console.log('Waiting 3s for site reveal...');
+          await page.waitForTimeout(3000);
+          break;
+        }
+      }
+    }
+  } catch (err) {
+    console.warn('Preloader gate check skipped:', err.message);
+  }
+}
+
 async function captureDraftPosters(page, draft, origin) {
   const targetUrl = `${origin}/drafts/${draft.slug}/`;
   const desktopPosterPath = path.resolve(postersDir, `${draft.slug}.jpg`);
@@ -125,6 +148,9 @@ async function captureDraftPosters(page, draft, origin) {
   console.log(`Waiting 7s for preloader animations to finish...`);
   await page.waitForTimeout(7000);
 
+  // If a preloader gate exists, click it and wait ~3s more
+  await bypassPreloaderGate(page);
+
   await page.screenshot({
     path: desktopPosterPath,
     type: 'jpeg',
@@ -144,6 +170,9 @@ async function captureDraftPosters(page, draft, origin) {
     await page.waitForLoadState('load').catch(() => {});
   }
   await page.waitForTimeout(7000);
+
+  // If a preloader gate exists, click it and wait ~3s more
+  await bypassPreloaderGate(page);
 
   await page.screenshot({
     path: mobilePosterPath,
