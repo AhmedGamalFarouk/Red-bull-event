@@ -150,30 +150,80 @@ h1, h2, h3, .font-display {
   animation: marquee 22s linear infinite reverse;
 }
 
+/* Preloader (tachometer) effects */
+/* Ken Burns slow cinematic float for Egypt background */
+@keyframes kenBurnsSlow {
+  0% {
+    transform: scale(1.02) translate3d(0, 0, 0);
+  }
+  50% {
+    transform: scale(1.08) translate3d(-0.8%, -0.6%, 0);
+  }
+  100% {
+    transform: scale(1.02) translate3d(0, 0, 0);
+  }
+}
+
+.animate-ken-burns {
+  animation: kenBurnsSlow 24s ease-in-out infinite alternate;
+}
+
+/* Hyper-speed warp tunnel flash on exit */
+@keyframes warpZoom {
+  0% {
+    transform: scale(1);
+    filter: blur(0px) brightness(1);
+    opacity: 1;
+  }
+  60% {
+    transform: scale(1.3);
+    filter: blur(4px) brightness(1.6);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1.55);
+    filter: blur(14px) brightness(2.2);
+    opacity: 0;
+  }
+}
+
+.animate-warp-zoom {
+  animation: warpZoom 1.05s cubic-bezier(0.7, 0, 0.2, 1) forwards;
+}
+
+/* Supersonic Shockwave Ring */
+@keyframes shockwaveExpand {
+  0% {
+    transform: scale(0.2);
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(3.5);
+    opacity: 0;
+  }
+}
+
+.animate-shockwave {
+  animation: shockwaveExpand 0.95s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Scanline / HUD grid */
+.hud-grid {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
 /* Collapse CSS loops for visitors who ask for less motion.
    The scroll-driven can choreography is untouched. */
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee,
-  .animate-marquee-reverse {
+  .animate-marquee-reverse,
+  .animate-ken-burns {
     animation: none;
   }
-}
-
-/* Preloader can (loading indicator). Sized to clear the chrome on every viewport;
-   on phones it sits higher to clear the stacked counter + buttons. GSAP owns its transform. */
-.preloader {
-  --can-cy: 42%;
-  --can-w: min(clamp(88px, 26vw, 170px), calc((100dvh - 440px) / 2.7));
-  --can-h: calc(var(--can-w) * 2.7);
-}
-@media (min-width: 768px) {
-  .preloader {
-    --can-cy: 50%;
-    --can-w: min(clamp(112px, 17vw, 190px), calc((100dvh - 300px) / 2.7));
-  }
-}
-.preloader-can {
-  top: var(--can-cy);
-  width: var(--can-w);
-  height: var(--can-h);
 }

@@ -3,7 +3,6 @@ import { useGLTF } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { audio } from '../utils/audio';
-import { canScreen, CAN_SPIN_EVENT } from '../three/canScreen';
 
 export interface FlavorConfig {
   id: string;
@@ -130,23 +129,6 @@ export const RedBullCan: React.FC<RedBullCanProps> = ({
 
     return cloned;
   }, [scene]);
-
-  // Model dimensions (local, pre-scale) for projecting the can axis to the screen
-  const canDims = useMemo(() => {
-    const size = new THREE.Box3().setFromObject(clonedScene).getSize(new THREE.Vector3());
-    return { halfH: size.y / 2 };
-  }, [clonedScene]);
-  const axisTop = useMemo(() => new THREE.Vector3(), []);
-  const axisBottom = useMemo(() => new THREE.Vector3(), []);
-
-  // Preloader hand-off: one full spin that settles through the existing drag inertia
-  useEffect(() => {
-    const spin = () => {
-      dragRef.current.rotY -= Math.PI * 2;
-    };
-    window.addEventListener(CAN_SPIN_EVENT, spin);
-    return () => window.removeEventListener(CAN_SPIN_EVENT, spin);
-  }, []);
 
   // Update material tint when flavor changes
   useEffect(() => {
@@ -339,24 +321,6 @@ export const RedBullCan: React.FC<RedBullCanProps> = ({
     const currentScale = groupRef.current.scale.x;
     const newScale = currentScale + (targetScale - currentScale) * damping;
     groupRef.current.scale.set(newScale, newScale, newScale);
-
-    // Publish the can's screen pose for the preloader hand-off (read-only; no effect on motion)
-    const { camera, size } = state;
-    groupRef.current.updateWorldMatrix(true, false);
-    axisTop.set(0, canDims.halfH, 0);
-    axisBottom.set(0, -canDims.halfH, 0);
-    groupRef.current.localToWorld(axisTop).project(camera);
-    groupRef.current.localToWorld(axisBottom).project(camera);
-    const tx = ((axisTop.x + 1) / 2) * size.width;
-    const ty = ((1 - axisTop.y) / 2) * size.height;
-    const bx = ((axisBottom.x + 1) / 2) * size.width;
-    const by = ((1 - axisBottom.y) / 2) * size.height;
-    const len = Math.hypot(tx - bx, ty - by);
-    canScreen.cx = (tx + bx) / 2;
-    canScreen.cy = (ty + by) / 2;
-    canScreen.h = len;
-    canScreen.angle = (Math.atan2(tx - bx, by - ty) * 180) / Math.PI;
-    canScreen.valid = len > 0;
   });
 
   return (
