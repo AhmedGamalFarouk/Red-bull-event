@@ -37,7 +37,7 @@ On each heat you can record:
 - **what works**: tags for Typography, Colour, Layout, Motion, 3D can, Imagery and Copy
 - a free-text **note**
 
-Scores are saved in the browser's `localStorage` under the key `gravity-showroom.v1`, so they are **per browser and per device**. They stay in sync across tabs, and "Clear all" on the Results view resets them. To share results with others, use **Copy summary** on the Results view, which puts a plain-text ranking on the clipboard.
+Scores are saved in the browser's `localStorage` under the key `gravity-showroom.v2`, so they are **per browser and per device**. They stay in sync across tabs, and "Clear all" on the Results view resets them. To share results with others, use **Copy summary** on the Results view, which puts a plain-text ranking on the clipboard.
 
 ### Keyboard shortcuts (Heat view)
 

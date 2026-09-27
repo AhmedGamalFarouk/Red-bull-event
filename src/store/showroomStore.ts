@@ -2,7 +2,9 @@ import { useSyncExternalStore, useCallback, useMemo } from 'react';
 import { ShowroomState, HeatVerdict } from '../types';
 import { MANIFEST } from '../data/manifest';
 
-const STORAGE_KEY = 'gravity-showroom.v1';
+// Bumping the version resets every viewer's scores on their next visit
+const STORAGE_KEY = 'gravity-showroom.v2';
+const LEGACY_STORAGE_KEYS = ['gravity-showroom.v1'];
 
 const DEFAULT_VERDICT: HeatVerdict = {
   score: null,
@@ -37,6 +39,17 @@ function writeStorage(state: ShowroomState): void {
   }
 }
 
+function clearLegacyStorage(): void {
+  try {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      LEGACY_STORAGE_KEYS.forEach((key) => window.localStorage.removeItem(key));
+    }
+  } catch (err) {
+    console.warn('Failed to clear legacy showroom store:', err);
+  }
+}
+
+clearLegacyStorage();
 let currentState: ShowroomState = readStorage();
 const listeners = new Set<() => void>();
 
