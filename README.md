@@ -2,6 +2,8 @@
 
 An interactive 3D web experience built with **React**, **Three.js** (@react-three/fiber & @react-three/drei), **GSAP ScrollTrigger**, and **Tailwind CSS**.
 
+**Live demo:** https://redbullevent.vercel.app
+
 ## Features
 
 - **Interactive 3D Can**: Photorealistic 3D Red Bull can model with dynamic rotation, water droplets, and interactive controls.
